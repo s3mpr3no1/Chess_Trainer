@@ -72,9 +72,14 @@ class Game:
                 # color 
                 color = theme.moves.light if (move.final.row + move.final.col) % 2 == 0 else theme.moves.dark
                 # rect
-                rect = (move.final.col * SQSIZE, move.final.row * SQSIZE, SQSIZE, SQSIZE)
+                #rect = (move.final.col * SQSIZE, move.final.row * SQSIZE, SQSIZE, SQSIZE)
+                center = (move.final.col * SQSIZE + (SQSIZE//2), move.final.row * SQSIZE + (SQSIZE//2))
                 # blit
-                pygame.draw.rect(surface, color, rect)
+                #pygame.draw.rect(surface, color, rect)
+                if not self.board.squares[move.final.row][move.final.col].has_piece():
+                    pygame.draw.circle(surface, color, center, 15.0)
+                else:
+                    pygame.draw.circle(surface, color, center, 50, 5)
 
     def show_last_move(self, surface):
         theme = self.config.theme

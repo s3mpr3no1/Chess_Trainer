@@ -35,8 +35,12 @@ class Main:
 
 
                 for event in pygame.event.get():
+                    # Check for hover
+                    if event.type == pygame.MOUSEMOTION:
+                        pass
+
                     # Quit the application
-                    if event.type == pygame.QUIT:
+                    elif event.type == pygame.QUIT:
                         pygame.quit()
                         sys.exit()
                 pygame.display.update()

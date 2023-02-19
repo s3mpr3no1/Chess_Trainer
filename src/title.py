@@ -6,18 +6,49 @@ class Title:
     
     def __init__(self):
         self.config = Config()
+                
         self.bg_surf = pygame.image.load('assets/graphics/board_bg.png').convert_alpha()
         self.bg_surf = pygame.transform.scale(self.bg_surf, (WIDTH, HEIGHT))
 
-        
+        self.title_message = self.config.title_font.render("Chess Trainer", False, (0, 0, 0))
+        self.title_message_rect = self.title_message.get_rect(center = ((WIDTH // 2), (HEIGHT // 8)))
+
+        self.study_message = self.config.menu_item_font.render("Study", False, (0, 0, 0))
+        self.study_message_rect = self.study_message.get_rect(center = ((WIDTH // 2), 300))
+
+        self.study_message_hover = self.config.menu_item_font_hover.render("Study", False, (0, 0, 0))
+        self.study_message_rect_hover = self.study_message_hover.get_rect(center = ((WIDTH // 2), 300))
+
+        self.drill_message = self.config.menu_item_font.render("Add Drills", False, (0, 0, 0))
+        self.drill_message_rect = self.drill_message.get_rect(center = ((WIDTH // 2), 450))
+
+        self.drill_message_hover = self.config.menu_item_font_hover.render("Add Drills", False, (0, 0, 0))
+        self.drill_message_rect_hover = self.drill_message_hover.get_rect(center = ((WIDTH // 2), 450))
 
     def show_bg(self, surface):
         surface.blit(self.bg_surf, (0,0))
 
-        #TODO: Title --> self.config.title_font.render(<>)
-        title_message = self.config.title_font.render("Chess Trainer", False, (0, 0, 0))
-        title_message_rect = title_message.get_rect(center = ((WIDTH // 2), (HEIGHT // 8)))
-        surface.blit(title_message, title_message_rect)
-        # game_name = test_font.render("Pixel Runner", False, (111, 196, 169))
-        # game_name_rect = game_name.get_rect(center = (400, 80))
-        # screen.blit(game_message, game_message_rect)
+        mouse_pos = pygame.mouse.get_pos()
+        #print(mouse_pos)
+        
+        surface.blit(self.title_message, self.title_message_rect)
+        if self.study_message_rect.collidepoint(mouse_pos):
+            surface.blit(self.study_message_hover, self.study_message_rect_hover)
+            surface.blit(self.drill_message, self.drill_message_rect)
+        elif self.drill_message_rect.collidepoint(mouse_pos):
+            surface.blit(self.study_message, self.study_message_rect)
+            surface.blit(self.drill_message_hover, self.drill_message_rect_hover)
+        else: 
+            surface.blit(self.study_message, self.study_message_rect)
+            surface.blit(self.drill_message, self.drill_message_rect)
+        
+    
+    def show_hover(self, surface, pos):
+        "Should take in a position from the main loop and hover the appropriate menu item"
+        surface.blit(self.bg_surf, (0,0))
+
+        
+
+
+        
+        

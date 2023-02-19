@@ -17,3 +17,6 @@ ADD_DRILL = 2
 
 # Completing daily reviews
 STUDY = 3
+
+# Help screen
+HELP = 4

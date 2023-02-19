@@ -6,6 +6,7 @@ from game import Game
 from square import Square
 from move import Move
 from title import Title
+from help import Help
 
 class Main:
 
@@ -15,6 +16,7 @@ class Main:
         pygame.display.set_caption("Chess")
         self.game = Game()
         self.title = Title()
+        self.help = Help()
 
     def mainloop(self):
 
@@ -23,6 +25,7 @@ class Main:
         dragger = self.game.dragger
         board = self.game.board
         title = self.title
+        help = self.help
 
         # Board flipping
         flipped = False
@@ -48,7 +51,23 @@ class Main:
                         sys.exit()
                 pygame.display.update()
 
-            if mode == CUSTOM:
+            elif mode == HELP:
+                help.show_bg(screen)
+
+                for event in pygame.event.get():
+
+                    if event.type == pygame.KEYDOWN:
+                        
+                        if event.key == pygame.K_m:
+                            mode = TITLE_SCREEN
+
+                    elif event.type == pygame.QUIT:
+                        pygame.quit()
+                        sys.exit()
+
+                pygame.display.update()
+
+            elif mode == CUSTOM:
                 # Show methods
                 game.show_bg(screen, flipped)
                 game.show_last_move(screen, flipped)

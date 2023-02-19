@@ -36,6 +36,7 @@ class Square:
         return True
 
     @staticmethod
-    def get_alphacol(col):
+    def get_alphacol(col, flipped):
         ALPHACOLS = {0: 'a', 1: 'b', 2: 'c', 3:'d', 4:'e', 5:'f', 6:'g', 7:'h'}
-        return ALPHACOLS[col]
+        FLIPPED = {0: 'h', 1: 'g', 2: 'f', 3:'e', 4:'d', 5:'c', 6:'b', 7:'a'}
+        return ALPHACOLS[col] if not flipped else FLIPPED[col]

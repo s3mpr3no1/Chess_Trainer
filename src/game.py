@@ -16,7 +16,7 @@ class Game:
 
     # Show methods 
 
-    def show_bg(self, surface):
+    def show_bg(self, surface, flipped):
         theme = self.config.theme
 
         for row in range(ROWS):
@@ -32,8 +32,12 @@ class Game:
                 if col == 0:
                     # color 
                     color = theme.bg.dark if row % 2 == 0 else theme.bg.light
+                    
                     # label
-                    lbl = self.config.font.render(str(ROWS-row), 1, color)
+                    if not flipped:
+                        lbl = self.config.font.render(str(ROWS-row), 1, color)
+                    else: 
+                        lbl = self.config.font.render(str(row + 1), 1, color)
                     lbl_pos = (5, 5 + row * SQSIZE)
                     # blit 
                     surface.blit(lbl, lbl_pos)
@@ -42,7 +46,8 @@ class Game:
                     # color 
                     color = theme.bg.dark if (row + col) % 2 == 0 else theme.bg.light
                     # label 
-                    lbl = self.config.font.render(Square.get_alphacol(col), 1, color)
+                    lbl = self.config.font.render(Square.get_alphacol(col, flipped), 1, color)
+                    
                     lbl_pos = (col * SQSIZE + SQSIZE - 20, HEIGHT - 20)
                     surface.blit(lbl, lbl_pos)
 

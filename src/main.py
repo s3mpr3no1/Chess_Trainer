@@ -35,9 +35,9 @@ class Main:
 
 
                 for event in pygame.event.get():
-                    # Check for hover
-                    if event.type == pygame.MOUSEMOTION:
-                        pass
+                    
+                    if event.type == pygame.MOUSEBUTTONDOWN:
+                        mode = title.get_collision(event.pos)
 
                     # Quit the application
                     elif event.type == pygame.QUIT:
@@ -45,7 +45,7 @@ class Main:
                         sys.exit()
                 pygame.display.update()
 
-            if mode == STUDY:
+            if mode == CUSTOM:
                 # Show methods
                 game.show_bg(screen)
                 game.show_last_move(screen)
@@ -138,11 +138,13 @@ class Main:
                         if event.key == pygame.K_t:
                             game.change_theme()
 
-                        if event.key == pygame.K_r:
+                        if event.key == pygame.K_r or event.key == pygame.K_m:
                             game.reset()
                             game = self.game
                             dragger = self.game.dragger
                             board = self.game.board
+                            if event.key == pygame.K_m:
+                                mode = TITLE_SCREEN
 
                     
                     # Quit the application

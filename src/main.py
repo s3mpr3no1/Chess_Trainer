@@ -51,8 +51,8 @@ class Main:
             if mode == CUSTOM:
                 # Show methods
                 game.show_bg(screen, flipped)
-                game.show_last_move(screen)
-                game.show_moves(screen)
+                game.show_last_move(screen, flipped)
+                game.show_moves(screen, flipped)
                 game.show_pieces(screen, flipped)
                 game.show_hover(screen)
 
@@ -65,8 +65,8 @@ class Main:
                     if event.type == pygame.MOUSEBUTTONDOWN:
                         dragger.update_mouse(event.pos)
 
-                        clicked_row = dragger.mouseY // SQSIZE
-                        clicked_col = dragger.mouseX // SQSIZE
+                        clicked_row = (dragger.mouseY // SQSIZE) if not flipped else (7 - (dragger.mouseY // SQSIZE))
+                        clicked_col = (dragger.mouseX // SQSIZE) if not flipped else (7 - (dragger.mouseX // SQSIZE))
 
                         # If there is a piece in the clicked square
                         if board.squares[clicked_row][clicked_col].has_piece():
@@ -75,13 +75,13 @@ class Main:
                             # valid color
                             if piece.color == game.next_player:
                                 board.calc_moves(piece, clicked_row, clicked_col, bool=True)
-                                dragger.save_initial(event.pos)
+                                dragger.save_initial(event.pos, flipped)
                                 dragger.drag_piece(piece)
                                 # show methods
-                                game.show_bg(screen)
-                                game.show_last_move(screen)
-                                game.show_moves(screen)
-                                game.show_pieces(screen)
+                                game.show_bg(screen, flipped)
+                                game.show_last_move(screen, flipped)
+                                game.show_moves(screen, flipped)
+                                game.show_pieces(screen, flipped)
                     
                     # Mouse motion
                     elif event.type == pygame.MOUSEMOTION:
@@ -93,10 +93,10 @@ class Main:
                         if dragger.dragging:
                             dragger.update_mouse(event.pos)
                             # Show methods
-                            game.show_bg(screen)
-                            game.show_last_move(screen)
-                            game.show_moves(screen)
-                            game.show_pieces(screen)
+                            game.show_bg(screen, flipped)
+                            game.show_last_move(screen, flipped)
+                            game.show_moves(screen, flipped)
+                            game.show_pieces(screen, flipped)
                             game.show_hover(screen)
                             dragger.update_blit(screen)
                     
@@ -106,8 +106,8 @@ class Main:
                         if dragger.dragging:
                             dragger.update_mouse(event.pos)
 
-                            released_row = dragger.mouseY // SQSIZE
-                            released_col = dragger.mouseX // SQSIZE
+                            released_row = (dragger.mouseY // SQSIZE) if not flipped else (7 - (dragger.mouseY // SQSIZE))
+                            released_col = (dragger.mouseX // SQSIZE) if not flipped else (7 - (dragger.mouseX // SQSIZE))
 
                             # create possible move
                             initial = Square(dragger.initial_row, dragger.initial_col)
@@ -126,9 +126,9 @@ class Main:
                                 # sounds
                                 game.play_sound(captured)
                                 # show methods
-                                game.show_bg(screen)
-                                game.show_last_move(screen)
-                                game.show_pieces(screen)
+                                game.show_bg(screen, flipped)
+                                game.show_last_move(screen, flipped)
+                                game.show_pieces(screen, flipped)
 
                                 game.next_turn()
 

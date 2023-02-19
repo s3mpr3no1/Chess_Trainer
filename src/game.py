@@ -16,7 +16,7 @@ class Game:
 
     # Show methods 
 
-    def show_bg(self, surface, flipped):
+    def show_bg(self, surface, flipped=False):
         theme = self.config.theme
 
         for row in range(ROWS):
@@ -71,7 +71,7 @@ class Game:
                         piece.texture_rect = img.get_rect(center=img_center)
                         surface.blit(img, piece.texture_rect)
 
-    def show_moves(self, surface):
+    def show_moves(self, surface, flipped=False):
         theme = self.config.theme
 
         if self.dragger.dragging:
@@ -79,11 +79,13 @@ class Game:
 
             # Loop all valid moves
             for move in piece.moves:
+                fr = move.final.row if not flipped else (7 - move.final.row)
+                fc = move.final.col if not flipped else (7 - move.final.col)
                 # color 
-                color = theme.moves.light if (move.final.row + move.final.col) % 2 == 0 else theme.moves.dark
+                color = theme.moves.light if (fr + fc) % 2 == 0 else theme.moves.dark
                 # rect
                 #rect = (move.final.col * SQSIZE, move.final.row * SQSIZE, SQSIZE, SQSIZE)
-                center = (move.final.col * SQSIZE + (SQSIZE//2), move.final.row * SQSIZE + (SQSIZE//2))
+                center = (fc * SQSIZE + (SQSIZE//2), fr * SQSIZE + (SQSIZE//2))
                 # blit
                 #pygame.draw.rect(surface, color, rect)
                 if not self.board.squares[move.final.row][move.final.col].has_piece():
@@ -91,17 +93,19 @@ class Game:
                 else:
                     pygame.draw.circle(surface, color, center, 50, 5)
 
-    def show_last_move(self, surface):
+    def show_last_move(self, surface, flipped=False):
         theme = self.config.theme
 
         if self.board.last_move:
-            initial = self.board.last_move.initial
-            final = self.board.last_move.final
+            initial = self.board.last_move.initial 
+            final = self.board.last_move.final 
             for pos in [initial, final]:
+                r = pos.row if not flipped else (7 - pos.row)
+                c = pos.col if not flipped else (7 - pos.col)
                 # color 
-                color = theme.trace.light if (pos.row + pos.col) % 2 == 0 else theme.trace.dark
+                color = theme.trace.light if (r + c) % 2 == 0 else theme.trace.dark
                 # rect
-                rect = (pos.col * SQSIZE, pos.row * SQSIZE, SQSIZE, SQSIZE)
+                rect = (c * SQSIZE, r * SQSIZE, SQSIZE, SQSIZE)
                 # blit
                 pygame.draw.rect(surface, color, rect)
 

@@ -31,9 +31,9 @@ class Dragger:
     def update_mouse(self, pos):
         self.mouseX, self.mouseY = pos # (x, y)
 
-    def save_initial(self, pos):
-        self.initial_row = pos[1] // SQSIZE
-        self.initial_col = pos[0] // SQSIZE
+    def save_initial(self, pos, flipped=False):
+        self.initial_row = (pos[1] // SQSIZE) if not flipped else (7 - (pos[1] // SQSIZE))
+        self.initial_col = (pos[0] // SQSIZE) if not flipped else (7 - (pos[0] // SQSIZE))
 
     def drag_piece(self, piece):
         self.piece = piece

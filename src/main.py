@@ -24,6 +24,9 @@ class Main:
         board = self.game.board
         title = self.title
 
+        # Board flipping
+        flipped = False
+
         # Set title screen
         mode = TITLE_SCREEN
         
@@ -50,7 +53,7 @@ class Main:
                 game.show_bg(screen)
                 game.show_last_move(screen)
                 game.show_moves(screen)
-                game.show_pieces(screen)
+                game.show_pieces(screen, flipped)
                 game.show_hover(screen)
 
                 if dragger.dragging: 
@@ -138,13 +141,21 @@ class Main:
                         if event.key == pygame.K_t:
                             game.change_theme()
 
-                        if event.key == pygame.K_r or event.key == pygame.K_m:
+                        # reset the board or reset and quit to menu
+                        elif event.key == pygame.K_r or event.key == pygame.K_m:
                             game.reset()
                             game = self.game
                             dragger = self.game.dragger
                             board = self.game.board
                             if event.key == pygame.K_m:
                                 mode = TITLE_SCREEN
+
+                        # Flip the board
+                        elif event.key == pygame.K_f:
+                            flipped = False if flipped else True
+                            print(flipped)
+                            
+
 
                     
                     # Quit the application

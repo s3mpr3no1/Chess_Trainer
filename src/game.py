@@ -46,7 +46,8 @@ class Game:
                     lbl_pos = (col * SQSIZE + SQSIZE - 20, HEIGHT - 20)
                     surface.blit(lbl, lbl_pos)
 
-    def show_pieces(self, surface):
+    def show_pieces(self, surface, flipped=False):
+        
         for row in range(ROWS):
             for col in range(COLS):
                 # Piece ? 
@@ -57,7 +58,11 @@ class Game:
                     if piece is not self.dragger.piece:
                         piece.set_texture(size=80)
                         img = pygame.image.load(piece.texture)
-                        img_center = col * SQSIZE + SQSIZE // 2, row * SQSIZE + SQSIZE // 2
+                        if not flipped:
+                            img_center = col * SQSIZE + SQSIZE // 2, row * SQSIZE + SQSIZE // 2
+                        # flipped
+                        else:
+                            img_center = (7 - col) * SQSIZE + SQSIZE // 2, (7 - row) * SQSIZE + SQSIZE // 2
                         piece.texture_rect = img.get_rect(center=img_center)
                         surface.blit(img, piece.texture_rect)
 

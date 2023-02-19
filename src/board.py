@@ -66,7 +66,6 @@ class Board:
 
     def castling(self, initial, final):
         return abs(initial.col - final.col) == 2 # did the king move two squares? (if so we castled)
-
     
     def set_true_en_passant(self, piece):
 
@@ -78,8 +77,6 @@ class Board:
                     self.squares[row][col].piece.en_passant = False     
 
         piece.en_passant = True
-
-
 
     def in_check(self, piece, move):
         temp_piece = copy.deepcopy(piece)
@@ -364,7 +361,6 @@ class Board:
 
         elif isinstance(piece, King): 
             king_moves()
-
 
     def _create(self):
         for row in range(ROWS):

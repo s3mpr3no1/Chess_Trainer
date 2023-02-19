@@ -60,6 +60,9 @@ class Title:
         
     
     def get_collision(self, pos):
+        """
+        These four codes correspond to the different possible modes
+        """
         if self.study_message_rect.collidepoint(pos):
             return STUDY
         elif self.add_message_rect.collidepoint(pos):

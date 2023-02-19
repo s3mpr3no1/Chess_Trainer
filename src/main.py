@@ -162,6 +162,3 @@ class Main:
 main = Main()
 main.mainloop()
 
-
-# https://www.youtube.com/watch?v=OpL0Gcfn4B4
-# 4:10:09

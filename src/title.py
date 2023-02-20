@@ -73,6 +73,13 @@ class Title:
             surface.blit(self.add_message, self.add_message_rect)
             surface.blit(self.custom_message, self.custom_message_rect)
             surface.blit(self.help_message, self.help_message_rect)
+
+        color = (255, 255, 255)
+        rect = (WIDTH, 0, TRUEWIDTH - WIDTH, HEIGHT)
+        pygame.draw.rect(surface, color, rect)
+        color = (0,0,0)
+        rect = (WIDTH, 0, 5, HEIGHT)
+        pygame.draw.rect(surface, color, rect)
         
     
     def get_collision(self, pos):

@@ -50,6 +50,12 @@ class Game:
                     
                     lbl_pos = (col * SQSIZE + SQSIZE - 20, HEIGHT - 20)
                     surface.blit(lbl, lbl_pos)
+        color = (255, 255, 255)
+        rect = (WIDTH, 0, TRUEWIDTH - WIDTH, HEIGHT)
+        pygame.draw.rect(surface, color, rect)
+        color = (0,0,0)
+        rect = (WIDTH, 0, 5, HEIGHT)
+        pygame.draw.rect(surface, color, rect)
 
     def show_pieces(self, surface, flipped=False):
         

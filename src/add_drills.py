@@ -1,5 +1,6 @@
+from game import Game
 
-class DrillAdder:
+class DrillAdder(Game):
 
     def __init__(self):
-        pass
+        super().__init__()

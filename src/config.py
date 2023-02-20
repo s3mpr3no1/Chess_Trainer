@@ -19,6 +19,7 @@ class Config:
         self.menu_item_font_hover = pygame.font.SysFont('impact', 80)
 
         self.help_item = pygame.font.SysFont('impact', 50)
+        self.move_font = pygame.font.SysFont('MONOSPACE', 30)
         self.move_sound = Sound(os.path.join('assets/sounds/move.mp3'))
         self.capture_sound = Sound(os.path.join('assets/sounds/capture.mp3'))
 

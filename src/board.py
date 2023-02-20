@@ -14,8 +14,9 @@ class Board:
         self._create()
         self._add_pieces("white")
         self._add_pieces("black")
+        self.moves = []
 
-    def move(self, piece, move, testing = False):
+    def move(self, piece, move, testing = False, captured=False):
         initial = move.initial
         final = move.final
 
@@ -24,6 +25,15 @@ class Board:
         # console board move update
         self.squares[initial.row][initial.col].piece = None
         self.squares[final.row][final.col].piece = piece
+
+        if not testing:
+            if not captured:
+                self.moves.append(str(piece) + Square.get_alphacol(final.col, False) + str(7 - (final.row - 1)))
+            else:
+                if not isinstance(piece, Pawn):
+                    self.moves.append(str(piece) + "x" + Square.get_alphacol(final.col, False) + str(7 - (final.row - 1)))
+                else:
+                    self.moves.append(Square.get_alphacol(initial.col, False) + "x" + Square.get_alphacol(final.col, False) + str(7 - (final.row - 1)))
 
         if isinstance(piece, Pawn):
             diff = final.col - initial.col 
@@ -47,6 +57,12 @@ class Board:
                 diff = final.col - initial.col 
                 rook = piece.left_rook if (diff < 0) else piece.right_rook
                 self.move(rook, rook.moves[-1]) # we added this in the kingmoves method
+                if diff < 0 and not testing:
+                    self.moves = self.moves[:-2] 
+                    self.moves.append("O-O-O")
+                elif diff > 0 and not testing:
+                    self.moves = self.moves[:-2] 
+                    self.moves.append("O-O")
 
         # move
         piece.moved = True
@@ -56,6 +72,7 @@ class Board:
 
         # set last move
         self.last_move = move
+        # if not testing: print(self.moves)
 
     def valid_move(self, piece, move):
         return move in piece.moves

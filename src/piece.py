@@ -37,11 +37,17 @@ class Pawn(Piece):
         self.en_passant = False
         super().__init__("Pawn", color, 1.0)
 
+    def __str__(self):
+        return ""
+
 
 class Knight(Piece):
 
     def __init__(self, color):
         super().__init__("Knight", color, 3.0)
+
+    def __str__(self):
+        return "N"
 
 
 class Bishop(Piece):
@@ -49,16 +55,25 @@ class Bishop(Piece):
     def __init__(self, color):
         super().__init__("Bishop", color, 3.0)
 
+    def __str__(self):
+        return "B"
+
 
 class Rook(Piece):
 
     def __init__(self, color):
-        super().__init__("Rook", color, 5.0)    
+        super().__init__("Rook", color, 5.0)  
+
+    def __str__(self):
+        return "R"  
 
 class Queen(Piece):
 
     def __init__(self, color):
         super().__init__("Queen", color, 9.0)
+
+    def __str__(self):
+        return "Q"
 
 class King(Piece):
 
@@ -66,3 +81,6 @@ class King(Piece):
         self.left_rook = None
         self.right_rook = None
         super().__init__("King", color, 10000)
+
+    def __str__(self):
+        return "K"

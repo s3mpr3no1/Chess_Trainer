@@ -79,6 +79,7 @@ class Main:
                 adder.show_moves(screen, flipped)
                 adder.show_pieces(screen, flipped)
                 adder.show_hover(screen)
+                adder.show_entered_moves(screen)
 
                 if add_dragger.dragging: 
                     add_dragger.update_blit(screen)
@@ -107,6 +108,7 @@ class Main:
                                     adder.show_last_move(screen, flipped)
                                     adder.show_moves(screen, flipped)
                                     adder.show_pieces(screen, flipped)
+                                    adder.show_entered_moves(screen)
                     
                     # Mouse motion
                     elif event.type == pygame.MOUSEMOTION:
@@ -124,6 +126,7 @@ class Main:
                             adder.show_pieces(screen, flipped)
                             adder.show_hover(screen)
                             add_dragger.update_blit(screen)
+                            adder.show_entered_moves(screen)
                     
                     # Click release
                     elif event.type == pygame.MOUSEBUTTONUP:
@@ -150,7 +153,7 @@ class Main:
                                 captured = add_board.squares[released_row][released_col].has_piece()
 
 
-                                add_board.move(add_dragger.piece, move)
+                                add_board.move(add_dragger.piece, move, captured=captured)
 
                                 add_board.set_true_en_passant(add_dragger.piece)
                                 # sounds
@@ -159,6 +162,7 @@ class Main:
                                 adder.show_bg(screen, flipped)
                                 adder.show_last_move(screen, flipped)
                                 adder.show_pieces(screen, flipped)
+                                adder.show_entered_moves(screen)
 
                                 adder.next_turn()
 

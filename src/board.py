@@ -279,7 +279,7 @@ class Board:
                         if bool:
                             if not self.in_check(piece, move):
                                 piece.add_move(move)
-                            else: break
+                            # else: break
                         else: 
                             piece.add_move(move)
 

@@ -172,7 +172,7 @@ class Main:
                         # Flip the board
                         elif event.key == pygame.K_f:
                             flipped = False if flipped else True
-                            print(flipped)
+                            # print(flipped)
                             
 
 

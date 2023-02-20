@@ -12,7 +12,11 @@ class Scheduler:
     def __init__(self):
         pass
 
-    def read_from_log(self, logpath):
+    @staticmethod
+    def drill_from_deck_string(deck_string):
+        """
+        Take a line from the deck file and turn it into a drill object
+        """
         pass
 
 

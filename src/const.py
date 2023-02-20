@@ -1,6 +1,8 @@
-# Screen dimensions
+# Board dimensions
 WIDTH = 800
 HEIGHT = 800
+
+TRUEWIDTH = 1200
 
 # Board dimensions
 COLS = 8
@@ -20,3 +22,9 @@ STUDY = 3
 
 # Help screen
 HELP = 4
+
+
+# Drill study constants
+NEW = 0
+LEARN_RELEARN = 1
+REVIEW = 2

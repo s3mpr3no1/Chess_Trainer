@@ -7,16 +7,18 @@ from square import Square
 from move import Move
 from title import Title
 from help import Help
+from add_drills import DrillAdder
 
 class Main:
 
     def __init__(self):
         pygame.init()
-        self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
+        self.screen = pygame.display.set_mode((TRUEWIDTH, HEIGHT))
         pygame.display.set_caption("Chess")
         self.game = Game()
         self.title = Title()
         self.help = Help()
+        self.drill_adder = DrillAdder()
 
     def mainloop(self):
 
@@ -83,24 +85,25 @@ class Main:
                     # Click event
                     if event.type == pygame.MOUSEBUTTONDOWN:
                         dragger.update_mouse(event.pos)
+                        
+                        if dragger.mouseX < WIDTH and dragger.mouseY < HEIGHT:
+                            clicked_row = (dragger.mouseY // SQSIZE) if not flipped else (7 - (dragger.mouseY // SQSIZE))
+                            clicked_col = (dragger.mouseX // SQSIZE) if not flipped else (7 - (dragger.mouseX // SQSIZE))
 
-                        clicked_row = (dragger.mouseY // SQSIZE) if not flipped else (7 - (dragger.mouseY // SQSIZE))
-                        clicked_col = (dragger.mouseX // SQSIZE) if not flipped else (7 - (dragger.mouseX // SQSIZE))
+                            # If there is a piece in the clicked square
+                            if board.squares[clicked_row][clicked_col].has_piece():
+                                piece = board.squares[clicked_row][clicked_col].piece
 
-                        # If there is a piece in the clicked square
-                        if board.squares[clicked_row][clicked_col].has_piece():
-                            piece = board.squares[clicked_row][clicked_col].piece
-
-                            # valid color
-                            if piece.color == game.next_player:
-                                board.calc_moves(piece, clicked_row, clicked_col, bool=True)
-                                dragger.save_initial(event.pos, flipped)
-                                dragger.drag_piece(piece)
-                                # show methods
-                                game.show_bg(screen, flipped)
-                                game.show_last_move(screen, flipped)
-                                game.show_moves(screen, flipped)
-                                game.show_pieces(screen, flipped)
+                                # valid color
+                                if piece.color == game.next_player:
+                                    board.calc_moves(piece, clicked_row, clicked_col, bool=True)
+                                    dragger.save_initial(event.pos, flipped)
+                                    dragger.drag_piece(piece)
+                                    # show methods
+                                    game.show_bg(screen, flipped)
+                                    game.show_last_move(screen, flipped)
+                                    game.show_moves(screen, flipped)
+                                    game.show_pieces(screen, flipped)
                     
                     # Mouse motion
                     elif event.type == pygame.MOUSEMOTION:
@@ -125,8 +128,13 @@ class Main:
                         if dragger.dragging:
                             dragger.update_mouse(event.pos)
 
-                            released_row = (dragger.mouseY // SQSIZE) if not flipped else (7 - (dragger.mouseY // SQSIZE))
-                            released_col = (dragger.mouseX // SQSIZE) if not flipped else (7 - (dragger.mouseX // SQSIZE))
+                            if dragger.mouseX < WIDTH and dragger.mouseY < HEIGHT:
+                                released_row = (dragger.mouseY // SQSIZE) if not flipped else (7 - (dragger.mouseY // SQSIZE))
+                                released_col = (dragger.mouseX // SQSIZE) if not flipped else (7 - (dragger.mouseX // SQSIZE))
+                            else: 
+                                released_row = dragger.initial_row
+                                released_col = dragger.initial_col
+
 
                             # create possible move
                             initial = Square(dragger.initial_row, dragger.initial_col)

@@ -38,6 +38,23 @@ class Scheduler:
         This method takes self.drills and splits it into due today and not due today. The drills due later can be written to the log and the 
         rest will be appended at the end of the training sesssion. 
         """
+        # Today's date
+        tod = datetime.date.today()
+        
+        # End of the day expressed as a POSIX timestamp
+        end_of_day = datetime.datetime(tod.year, tod.month, tod.day, 23, 59, 59).timestamp()
+
+        cutoff = 0
+        for drill in self.drills:
+            if drill.due_date > end_of_day:
+                break
+            else: 
+                cutoff += 1
+        
+        self.due_today = self.drills[:cutoff]
+        self.due_later = self.drills[cutoff:]
+
+
 
     @staticmethod
     def get_drill_from_deck_string(deck_string):

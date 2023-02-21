@@ -28,3 +28,6 @@ HELP = 4
 NEW = 0
 LEARN_RELEARN = 1
 REVIEW = 2
+
+# 1 Day in seconds
+DAY_SECONDS = 86400

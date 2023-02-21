@@ -109,6 +109,15 @@ class Main:
                                     adder.show_moves(screen, flipped)
                                     adder.show_pieces(screen, flipped)
                                     adder.show_entered_moves(screen)
+                        # Mouse in in the menu portion of the screen
+                        else:
+                            if adder.save_msg_rect.collidepoint(event.pos):
+                                adder.save_to_deck()
+                                # reset the screen
+                                adder.reset()
+                                adder = self.drill_adder
+                                add_dragger = self.drill_adder.dragger
+                                add_board = self.drill_adder.board
                     
                     # Mouse motion
                     elif event.type == pygame.MOUSEMOTION:

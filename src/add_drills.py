@@ -8,14 +8,19 @@ class DrillAdder(Game):
     def __init__(self):
         super().__init__()
 
-        self.add_msg = self.config.help_item.render("Add Drills", False, (255, 255, 255))
+        self.add_msg = self.config.help_item.render("Add Drill:", False, (255, 255, 255))
         self.add_msg_rect = self.add_msg.get_rect(center = ((WIDTH + ((TRUEWIDTH - WIDTH) / 2)), 50))
 
         self.button_color = (150, 150, 150)
         self.button_rect = (WIDTH + 50, HEIGHT - 150, 300, 100)
+        self.big_button_rect = (WIDTH + 40, HEIGHT - 160, 320, 120)
+        # self.big_button = self.button_rect.inflate(10, 10)
         
         self.save_msg = self.config.help_item.render("Save", False, (0,0,0))
         self.save_msg_rect = self.save_msg.get_rect(center = ((WIDTH + ((TRUEWIDTH - WIDTH) // 2)), 700))
+
+        self.save_msg_hover = self.config.help_item_hover.render("Save", False, (0,0,0))
+        self.save_msg_hover_rect = self.save_msg_hover.get_rect(center = ((WIDTH + ((TRUEWIDTH - WIDTH) // 2)), 700))
 
         self.indicator_color = (209, 0, 126)
 
@@ -23,8 +28,13 @@ class DrillAdder(Game):
         super().show_bg(surface, flipped)
 
         surface.blit(self.add_msg, self.add_msg_rect)
+        mouse_pos = pygame.mouse.get_pos()
         pygame.draw.rect(surface, self.button_color, self.button_rect, border_radius=20)
-        surface.blit(self.save_msg, self.save_msg_rect)
+
+        if self.save_msg_rect.collidepoint(mouse_pos):
+            surface.blit(self.save_msg_hover, self.save_msg_hover_rect)
+        else:
+            surface.blit(self.save_msg, self.save_msg_rect)
 
     def show_entered_moves(self, surface):
         """
@@ -39,15 +49,41 @@ class DrillAdder(Game):
                 num_rect = num_surf.get_rect(midleft = (WIDTH + 20, (100 + 30 * move_counter)))
                 surface.blit(num_surf, num_rect)
             move_surf = self.config.move_font.render(self.board.moves[move_index], False, (255, 255, 255))
-            if move_index % 2 == 0:
+            if move_index % 2 == 0: # white
+                # if move_index == len(self.board.moves) - 1: # most recent move
+                #     indicator_rect = (WIDTH + 90, 90 + 30 * move_counter, 100, 20)
+                #     pygame.draw.rect(surface, self.indicator_color, indicator_rect, border_radius=2)
                 move_rect = move_surf.get_rect(midleft = ((WIDTH + 100 * 1), (100 + 30 * move_counter)))
-            else:
+            else: # black
+                # if move_index == len(self.board.moves) - 1: # most recent move
+                #     indicator_rect = (WIDTH + 100 * 2.5 - 10, 90 + 30 * move_counter, 100, 20)
+                #     pygame.draw.rect(surface, self.indicator_color, indicator_rect, border_radius=2)
                 move_rect = move_surf.get_rect(midleft = ((WIDTH + 100 * 2.5), (100 + 30 * move_counter)))
             
             surface.blit(move_surf, move_rect)
             if move_index % 2 == 1:
                 move_counter += 1
     
+    def save_to_deck(self):
+        """
+        Save the current drill contained in self.board.moves to the log file
+        """
+        # Drill contents
+        drill_contents = ""
+        for move in self.board.moves:
+            drill_contents += move
+            drill_contents += ","
+        drill_contents = drill_contents[:-1]
+
+        log_entry = drill_contents + ":" + str(2.5) + ":" + str(0) + ":" + "x" + "\n"
+        
+        with open("drills.txt", 'a') as f:
+            f.write(log_entry)
+
+
+
+        
+
 
     
 

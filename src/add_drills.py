@@ -1,6 +1,7 @@
 from game import Game
 from const import * 
 import pygame
+import datetime
 
 
 class DrillAdder(Game):
@@ -74,8 +75,11 @@ class DrillAdder(Game):
             drill_contents += move
             drill_contents += ","
         drill_contents = drill_contents[:-1]
+        ease = str(2.5)
+        interval = str(0)
+        due_date = str(datetime.date.today())
 
-        log_entry = drill_contents + ":" + str(2.5) + ":" + str(0) + ":" + "x" + "\n"
+        log_entry = drill_contents + ":" + ease + ":" + interval + ":" + due_date + "\n"
         
         with open("drills.txt", 'a') as f:
             f.write(log_entry)

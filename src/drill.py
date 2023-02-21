@@ -2,7 +2,7 @@ import datetime
 
 class Drill:
 
-    def __init__(self, sequence, mode, ease=2.5, interval=0, due_date=False):
+    def __init__(self, sequence, mode, ease, interval, due_date):
         """
         Due date is a datetime.date object
         """

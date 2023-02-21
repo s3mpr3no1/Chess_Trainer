@@ -77,7 +77,8 @@ class DrillAdder(Game):
         drill_contents = drill_contents[:-1]
         ease = str(2.5)
         interval = str(0)
-        due_date = str(datetime.date.today())
+        # POSIX time stamp
+        due_date = str(int(datetime.datetime.now().timestamp()))
 
         log_entry = drill_contents + ":" + ease + ":" + interval + ":" + due_date + "\n"
         

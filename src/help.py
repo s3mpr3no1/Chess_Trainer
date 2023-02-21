@@ -29,9 +29,9 @@ class Help:
         surface.blit(self.menu, self.menu_rect)
         surface.blit(self.theme, self.theme_rect)
 
-        color = (255, 255, 255)
+        color = (228, 234, 221)
         rect = (WIDTH, 0, TRUEWIDTH - WIDTH, HEIGHT)
         pygame.draw.rect(surface, color, rect)
-        color = (0,0,0)
-        rect = (WIDTH, 0, 5, HEIGHT)
-        pygame.draw.rect(surface, color, rect)
+        # color = (0,0,0)
+        # rect = (WIDTH, 0, 5, HEIGHT)
+        # pygame.draw.rect(surface, color, rect)

@@ -8,7 +8,7 @@ class DrillAdder(Game):
     def __init__(self):
         super().__init__()
 
-        self.add_msg = self.config.help_item.render("Add Drills", False, (0, 0, 0))
+        self.add_msg = self.config.help_item.render("Add Drills", False, (255, 255, 255))
         self.add_msg_rect = self.add_msg.get_rect(center = ((WIDTH + ((TRUEWIDTH - WIDTH) / 2)), 50))
 
         self.button_color = (150, 150, 150)
@@ -17,11 +17,13 @@ class DrillAdder(Game):
         self.save_msg = self.config.help_item.render("Save", False, (0,0,0))
         self.save_msg_rect = self.save_msg.get_rect(center = ((WIDTH + ((TRUEWIDTH - WIDTH) // 2)), 700))
 
+        self.indicator_color = (209, 0, 126)
+
     def show_bg(self, surface, flipped=False):
         super().show_bg(surface, flipped)
 
         surface.blit(self.add_msg, self.add_msg_rect)
-        pygame.draw.rect(surface, self.button_color, self.button_rect)
+        pygame.draw.rect(surface, self.button_color, self.button_rect, border_radius=20)
         surface.blit(self.save_msg, self.save_msg_rect)
 
     def show_entered_moves(self, surface):
@@ -32,9 +34,16 @@ class DrillAdder(Game):
         move_counter = 1
 
         for move_index in range(len(self.board.moves)):
-            move_surf = self.config.move_font.render(self.board.moves[move_index], False, (0,0,0))
-            column = 1 if move_index % 2 == 0 else 2.5
-            move_rect = move_surf.get_rect(midleft = ((WIDTH + 100 * column), (100 + 50 * move_counter)))
+            if move_index % 2 == 0:
+                num_surf = self.config.move_font.render(str(move_counter) + ".", False, (255, 255, 255))
+                num_rect = num_surf.get_rect(midleft = (WIDTH + 20, (100 + 30 * move_counter)))
+                surface.blit(num_surf, num_rect)
+            move_surf = self.config.move_font.render(self.board.moves[move_index], False, (255, 255, 255))
+            if move_index % 2 == 0:
+                move_rect = move_surf.get_rect(midleft = ((WIDTH + 100 * 1), (100 + 30 * move_counter)))
+            else:
+                move_rect = move_surf.get_rect(midleft = ((WIDTH + 100 * 2.5), (100 + 30 * move_counter)))
+            
             surface.blit(move_surf, move_rect)
             if move_index % 2 == 1:
                 move_counter += 1

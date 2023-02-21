@@ -28,12 +28,22 @@ class Board:
 
         if not testing:
             if not captured:
-                self.moves.append(str(piece) + Square.get_alphacol(final.col, False) + str(7 - (final.row - 1)))
+                if not self.giving_check(piece, move):
+                    self.moves.append(str(piece) + Square.get_alphacol(final.col, False) + str(7 - (final.row - 1)))
+                else: 
+                    self.moves.append(str(piece) + Square.get_alphacol(final.col, False) + str(7 - (final.row - 1)) + "#")
+                
             else:
                 if not isinstance(piece, Pawn):
-                    self.moves.append(str(piece) + "x" + Square.get_alphacol(final.col, False) + str(7 - (final.row - 1)))
+                    if not self.giving_check(piece, move):
+                        self.moves.append(str(piece) + "x" + Square.get_alphacol(final.col, False) + str(7 - (final.row - 1)))
+                    else:
+                        self.moves.append(str(piece) + "x" + Square.get_alphacol(final.col, False) + str(7 - (final.row - 1)) + "#")
                 else:
-                    self.moves.append(Square.get_alphacol(initial.col, False) + "x" + Square.get_alphacol(final.col, False) + str(7 - (final.row - 1)))
+                    if not self.giving_check(piece, move):
+                        self.moves.append(Square.get_alphacol(initial.col, False) + "x" + Square.get_alphacol(final.col, False) + str(7 - (final.row - 1)))
+                    else: 
+                        self.moves.append(Square.get_alphacol(initial.col, False) + "x" + Square.get_alphacol(final.col, False) + str(7 - (final.row - 1)) + "#")
 
         if isinstance(piece, Pawn):
             diff = final.col - initial.col 
@@ -95,11 +105,23 @@ class Board:
 
         piece.en_passant = True
 
+    def giving_check(self, piece, move):
+        temp_piece = copy.deepcopy(piece)
+        temp_board = copy.deepcopy(self)
+        temp_board.move(temp_piece, move, testing=True)
+        temp_board.calc_moves(temp_piece, move.final.row, move.final.col, bool=False)
+        for m in temp_piece.moves:
+            if isinstance(m.final.piece, King):
+                return True
+        return False
+
+
+
     def in_check(self, piece, move):
         temp_piece = copy.deepcopy(piece)
         temp_board = copy.deepcopy(self)
         temp_board.move(temp_piece, move, testing=True)
-
+        
         for row in range(ROWS):
             for col in range(COLS):
                 if temp_board.squares[row][col].has_enemy_piece(piece.color):

@@ -31,3 +31,5 @@ REVIEW = 2
 
 # 1 Day in seconds
 DAY_SECONDS = 86400
+
+DRILLFILE = "drills.txt"

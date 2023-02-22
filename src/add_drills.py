@@ -95,7 +95,7 @@ class DrillAdder(Game):
 
         log_entry = drill_contents + ":" + ease + ":" + interval + ":" + self.color + ":" + due_date + "\n"
         
-        with open("drills.txt", 'a') as f:
+        with open(DRILLFILE, 'a') as f:
             f.write(log_entry)
 
     def switch_color(self):

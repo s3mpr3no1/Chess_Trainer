@@ -118,6 +118,8 @@ class Main:
                                 adder = self.drill_adder
                                 add_dragger = self.drill_adder.dragger
                                 add_board = self.drill_adder.board
+                            elif adder.color_rect.collidepoint(event.pos):
+                                adder.switch_color()
                     
                     # Mouse motion
                     elif event.type == pygame.MOUSEMOTION:

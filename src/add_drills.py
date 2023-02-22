@@ -9,8 +9,14 @@ class DrillAdder(Game):
     def __init__(self):
         super().__init__()
 
+        self.color = "black"
+
         self.add_msg = self.config.help_item.render("Add Drill:", False, (255, 255, 255))
         self.add_msg_rect = self.add_msg.get_rect(center = ((WIDTH + ((TRUEWIDTH - WIDTH) / 2)), 50))
+
+        self.color_center = (TRUEWIDTH - 50, 50)
+        self.color_color = (255, 255, 255)
+        self.color_rect = pygame.Rect(TRUEWIDTH - 60, 40, 20, 20)
 
         self.button_color = (150, 150, 150)
         self.button_rect = (WIDTH + 50, HEIGHT - 150, 300, 100)
@@ -25,6 +31,8 @@ class DrillAdder(Game):
 
         self.indicator_color = (209, 0, 126)
 
+        
+
     def show_bg(self, surface, flipped=False):
         super().show_bg(surface, flipped)
 
@@ -36,6 +44,11 @@ class DrillAdder(Game):
             surface.blit(self.save_msg_hover, self.save_msg_hover_rect)
         else:
             surface.blit(self.save_msg, self.save_msg_rect)
+        
+        width = 5 if self.color == "black" else 0
+        pygame.draw.circle(surface, self.color_color, self.color_center, 30, width)
+
+        
 
     def show_entered_moves(self, surface):
         """
@@ -80,10 +93,13 @@ class DrillAdder(Game):
         # POSIX time stamp
         due_date = str(int(datetime.datetime.now().timestamp()))
 
-        log_entry = drill_contents + ":" + ease + ":" + interval + ":" + due_date + "\n"
+        log_entry = drill_contents + ":" + ease + ":" + interval + ":" + self.color + ":" + due_date + "\n"
         
         with open("drills.txt", 'a') as f:
             f.write(log_entry)
+
+    def switch_color(self):
+        self.color = "white" if self.color == "black" else "black"
 
 
 

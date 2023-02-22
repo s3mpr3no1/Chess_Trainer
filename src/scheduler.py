@@ -66,13 +66,14 @@ class Scheduler:
         sequence = sections[0].split(",")
         ease = float(sections[1])
         interval = int(sections[2])
+        color = sections[3]
         # POSIX time stamp
-        due_date = int(sections[3])
+        due_date = int(sections[4])
         due_date = datetime.datetime.fromtimestamp(due_date)
         if interval == 0:
             mode = NEW
         else:
             mode = REVIEW
-        return Drill(sequence, mode, ease, interval, due_date)
+        return Drill(sequence, mode, ease, interval, due_date, color)
 
 

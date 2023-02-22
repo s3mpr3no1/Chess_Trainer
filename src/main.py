@@ -8,6 +8,7 @@ from move import Move
 from title import Title
 from help import Help
 from add_drills import DrillAdder
+from study import Study
 
 class Main:
 
@@ -19,6 +20,7 @@ class Main:
         self.title = Title()
         self.help = Help()
         self.drill_adder = DrillAdder()
+        self.study = Study()
 
     def mainloop(self):
 
@@ -31,6 +33,9 @@ class Main:
         title = self.title
         help = self.help
         adder = self.drill_adder
+        study = self.study
+        study_board = self.study.board
+        study_dragger = self.study.dragger
 
         # Board flipping
         flipped = False
@@ -339,7 +344,137 @@ class Main:
                 
                 pygame.display.update()
 
+            elif mode == STUDY:
+                # Show methods
+                study.show_bg(screen, flipped)
+                study.show_last_move(screen, flipped)
+                study.show_moves(screen, flipped)
+                study.show_pieces(screen, flipped)
+                study.show_hover(screen)
+                # study.show_entered_moves(screen)
 
+                if study_dragger.dragging: 
+                    study_dragger.update_blit(screen)
+
+                for event in pygame.event.get():
+
+                    # Click event
+                    if event.type == pygame.MOUSEBUTTONDOWN:
+                        study_dragger.update_mouse(event.pos)
+                        
+                        if study_dragger.mouseX < WIDTH and study_dragger.mouseY < HEIGHT:
+                            clicked_row = (study_dragger.mouseY // SQSIZE) if not flipped else (7 - (study_dragger.mouseY // SQSIZE))
+                            clicked_col = (study_dragger.mouseX // SQSIZE) if not flipped else (7 - (study_dragger.mouseX // SQSIZE))
+
+                            # If there is a piece in the clicked square
+                            if study_board.squares[clicked_row][clicked_col].has_piece():
+                                piece = study_board.squares[clicked_row][clicked_col].piece
+
+                                # valid color
+                                if piece.color == study.next_player:
+                                    study_board.calc_moves(piece, clicked_row, clicked_col, bool=True)
+                                    study_dragger.save_initial(event.pos, flipped)
+                                    study_dragger.drag_piece(piece)
+                                    # show methods
+                                    study.show_bg(screen, flipped)
+                                    study.show_last_move(screen, flipped)
+                                    study.show_moves(screen, flipped)
+                                    study.show_pieces(screen, flipped)
+                                    # study.show_entered_moves(screen)
+                        # Mouse in in the menu portion of the screen
+                        
+                    
+                    # Mouse motion
+                    elif event.type == pygame.MOUSEMOTION:
+                        motion_row = event.pos[1] // SQSIZE
+                        motion_col = event.pos[0] // SQSIZE
+
+                        study.set_hover(motion_row, motion_col)
+
+                        if study_dragger.dragging:
+                            study_dragger.update_mouse(event.pos)
+                            # Show methods
+                            study.show_bg(screen, flipped)
+                            study.show_last_move(screen, flipped)
+                            study.show_moves(screen, flipped)
+                            study.show_pieces(screen, flipped)
+                            study.show_hover(screen)
+                            study_dragger.update_blit(screen)
+                            # adder.show_entered_moves(screen)
+                    
+                    # Click release
+                    elif event.type == pygame.MOUSEBUTTONUP:
+
+                        if study_dragger.dragging:
+                            study_dragger.update_mouse(event.pos)
+
+                            if study_dragger.mouseX < WIDTH and study_dragger.mouseY < HEIGHT:
+                                released_row = (study_dragger.mouseY // SQSIZE) if not flipped else (7 - (study_dragger.mouseY // SQSIZE))
+                                released_col = (study_dragger.mouseX // SQSIZE) if not flipped else (7 - (study_dragger.mouseX // SQSIZE))
+                            else: 
+                                released_row = study_dragger.initial_row
+                                released_col = study_dragger.initial_col
+
+
+                            # create possible move
+                            initial = Square(study_dragger.initial_row, study_dragger.initial_col)
+                            final = Square(released_row, released_col)
+                            move = Move(initial, final)
+
+                            # if valid move
+                            if study_board.valid_move(study_dragger.piece, move):
+                                # normal capture
+                                captured = study_board.squares[released_row][released_col].has_piece()
+
+
+                                study_board.move(study_dragger.piece, move, captured=captured)
+
+                                study_board.set_true_en_passant(study_dragger.piece)
+                                # sounds
+                                study.play_sound(captured)
+                                # show methods
+                                study.show_bg(screen, flipped)
+                                study.show_last_move(screen, flipped)
+                                study.show_pieces(screen, flipped)
+                                # study.show_entered_moves(screen)
+
+                                study.next_turn()
+
+
+                        study_dragger.undrag_piece()
+
+                    # key press
+                    elif event.type == pygame.KEYDOWN:
+                        # change the theme
+                        if event.key == pygame.K_t:
+                            study.change_theme()
+
+                        # reset the board or reset and quit to menu
+                        elif event.key == pygame.K_r or event.key == pygame.K_m:
+                            study.reset()
+                            study = self.study
+                            study_dragger = self.study.dragger
+                            study_board = self.study.board
+                            if event.key == pygame.K_m:
+                                mode = TITLE_SCREEN
+
+                        # Flip the board
+                        elif event.key == pygame.K_f:
+                            flipped = False if flipped else True
+                            # print(flipped)
+                            
+
+
+                    
+                    # Quit the application
+                    elif event.type == pygame.QUIT:
+                        pygame.quit()
+                        sys.exit()
+                
+                
+                
+                
+                pygame.display.update()
 
 main = Main()
 main.mainloop()

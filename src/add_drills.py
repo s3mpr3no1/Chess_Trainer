@@ -9,7 +9,7 @@ class DrillAdder(Game):
     def __init__(self):
         super().__init__()
 
-        self.color = "black"
+        self.color = "white"
 
         self.add_msg = self.config.help_item.render("Add Drill:", False, (255, 255, 255))
         self.add_msg_rect = self.add_msg.get_rect(center = ((WIDTH + ((TRUEWIDTH - WIDTH) / 2)), 50))

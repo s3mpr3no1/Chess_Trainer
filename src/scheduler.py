@@ -46,7 +46,7 @@ class Scheduler:
 
         cutoff = 0
         for drill in self.drills:
-            if drill.due_date > end_of_day:
+            if drill.due_date.timestamp() > end_of_day:
                 break
             else: 
                 cutoff += 1

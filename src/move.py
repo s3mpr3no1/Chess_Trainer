@@ -10,3 +10,6 @@ class Move:
         return self.initial == other.initial and self.final == other.final
 
     
+    @staticmethod
+    def move_from_string(move_string):
+        pass

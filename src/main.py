@@ -54,6 +54,8 @@ class Main:
                     
                     if event.type == pygame.MOUSEBUTTONDOWN:
                         mode = title.get_collision(event.pos)
+                        if mode == STUDY:
+                            study.load_drills()
 
                     # Quit the application
                     elif event.type == pygame.QUIT:
@@ -428,6 +430,8 @@ class Main:
 
 
                                 study_board.move(study_dragger.piece, move, captured=captured)
+                                # TODO: Add logic to check whether the move made corresponds with the move in the sequence
+                                # If it does, the game should play the next move from it
 
                                 study_board.set_true_en_passant(study_dragger.piece)
                                 # sounds

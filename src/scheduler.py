@@ -14,6 +14,9 @@ class Scheduler:
         # Once loaded, self.drills is partitioned into these two lists
         self.due_today = []
         self.due_later = []
+        
+        # This tracks which drill in self.due_today is active
+        self.drill_index = 0
 
     def load_drills(self, deck_file_name):
         """

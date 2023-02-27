@@ -38,7 +38,7 @@ class Pawn(Piece):
         super().__init__("Pawn", color, 1.0)
 
     def __str__(self):
-        return ""
+        return "P"
 
 
 class Knight(Piece):

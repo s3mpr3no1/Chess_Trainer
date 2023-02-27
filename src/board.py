@@ -26,25 +26,34 @@ class Board:
         self.squares[initial.row][initial.col].piece = None
         self.squares[final.row][final.col].piece = piece
 
+        self.moves.append(str(piece) + Square.get_alphacol(initial.col, False) + str(7 - (initial.row - 1)) + Square.get_alphacol(final.col, False) + str(7 - (final.row - 1)))
+
+        """
         if not testing:
             if not captured:
+                # Regular move
                 if not self.giving_check(piece, move):
-                    self.moves.append(str(piece) + Square.get_alphacol(final.col, False) + str(7 - (final.row - 1)))
+                    self.moves.append(str(piece) + Square.get_alphacol(initial.col, False) + Square.get_alphacol(final.col, False) + str(7 - (final.row - 1)))
+                # Giving a check
                 else: 
-                    self.moves.append(str(piece) + Square.get_alphacol(final.col, False) + str(7 - (final.row - 1)) + "#")
+                    self.moves.append(str(piece) + Square.get_alphacol(initial.col, False) + Square.get_alphacol(final.col, False) + str(7 - (final.row - 1)) + "#")
                 
             else:
+                # Regular capture
                 if not isinstance(piece, Pawn):
                     if not self.giving_check(piece, move):
-                        self.moves.append(str(piece) + "x" + Square.get_alphacol(final.col, False) + str(7 - (final.row - 1)))
+                        self.moves.append(str(piece) + Square.get_alphacol(initial.col, False) + "x" + Square.get_alphacol(final.col, False) + str(7 - (final.row - 1)))
+                    # Regular capture with check
                     else:
-                        self.moves.append(str(piece) + "x" + Square.get_alphacol(final.col, False) + str(7 - (final.row - 1)) + "#")
+                        self.moves.append(str(piece) + Square.get_alphacol(initial.col, False) + "x" + Square.get_alphacol(final.col, False) + str(7 - (final.row - 1)) + "#")
+                # Pawn capture
                 else:
                     if not self.giving_check(piece, move):
                         self.moves.append(Square.get_alphacol(initial.col, False) + "x" + Square.get_alphacol(final.col, False) + str(7 - (final.row - 1)))
+                    # pawn capture with check
                     else: 
                         self.moves.append(Square.get_alphacol(initial.col, False) + "x" + Square.get_alphacol(final.col, False) + str(7 - (final.row - 1)) + "#")
-
+        """
         if isinstance(piece, Pawn):
             diff = final.col - initial.col 
             # en passant capture

@@ -9,6 +9,7 @@ from title import Title
 from help import Help
 from add_drills import DrillAdder
 from study import Study
+import time
 
 class Main:
 
@@ -430,8 +431,7 @@ class Main:
 
 
                                 study_board.move(study_dragger.piece, move, captured=captured)
-                                # TODO: Add logic to check whether the move made corresponds with the move in the sequence
-                                # If it does, the game should play the next move from it
+                                
 
                                 study_board.set_true_en_passant(study_dragger.piece)
                                 # sounds
@@ -441,6 +441,44 @@ class Main:
                                 study.show_last_move(screen, flipped)
                                 study.show_pieces(screen, flipped)
                                 # study.show_entered_moves(screen)
+
+                                study.next_turn()
+
+                                """
+                                At this point, a move has been made. This move has been added to self.board.moves. Once the move 
+                                has been made, we need to check to see if it corresponds with the move present in self.scheduler.due_today[0]
+                                
+                                Specifically, the board moves should be a proper substring of the drill
+
+
+                                """
+                                # If the move made matches the drill sequence
+                                if study.scheduler.board_matches_drill(study_board):
+                                    # study_dragger.undrag_piece()
+                                    
+                                    # Get the next move string from the drill
+                                    next_move_string = study.scheduler.due_today[0].sequence[len(study_board.moves)]
+                                    print(next_move_string)
+                                    # Get the next move
+                                    next_move = Move.move_from_string(next_move_string)
+                                    print(next_move)
+                                    # Get the next piece
+                                    next_piece = study_board.squares[next_move.initial.row][next_move.initial.col].piece
+
+                                    # Check next captured status
+                                    next_captured = study_board.squares[next_move.final.row][next_move.final.col].has_piece()
+
+                                    # Make the move
+                                    study_board.move(next_piece, next_move, captured=next_captured)
+
+                                    study_board.set_true_en_passant(next_piece)
+                                    # sounds
+                                    study.play_sound(next_captured)
+                                    # show methods
+                                    study.show_bg(screen, flipped)
+                                    study.show_last_move(screen, flipped)
+                                    study.show_pieces(screen, flipped)
+                                    # study.show_entered_moves(screen)
 
                                 study.next_turn()
 

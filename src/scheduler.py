@@ -58,6 +58,13 @@ class Scheduler:
         self.due_later = self.drills[cutoff:]
 
 
+    def board_matches_drill(self, board):
+        for i in range(len(board.moves)):
+            if board.moves[i] != self.due_today[0].sequence[i]:
+                return False
+        return True
+
+
 
     @staticmethod
     def get_drill_from_deck_string(deck_string):

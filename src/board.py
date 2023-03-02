@@ -16,6 +16,9 @@ class Board:
         self._add_pieces("black")
         self.moves = []
 
+    
+        
+
     def move(self, piece, move, testing = False, captured=False):
         initial = move.initial
         final = move.final

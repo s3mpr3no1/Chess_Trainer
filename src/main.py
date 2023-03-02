@@ -351,6 +351,36 @@ class Main:
                 pygame.display.update()
 
             elif mode == STUDY:
+
+                flipped = True if study.scheduler.due_today[0].color == "black" else False
+                
+                # If it's the first move of a black drill
+                if (len(study_board.moves) == 0) and flipped:
+                    # Get the next move string from the drill
+                    next_move_string = study.scheduler.due_today[0].sequence[len(study_board.moves)]
+                    print(next_move_string)
+                    # Get the next move
+                    next_move = Move.move_from_string(next_move_string)
+                    print(next_move)
+                    # Get the next piece
+                    next_piece = study_board.squares[next_move.initial.row][next_move.initial.col].piece
+
+                    # Check next captured status
+                    next_captured = study_board.squares[next_move.final.row][next_move.final.col].has_piece()
+
+                    # Make the move
+                    study_board.move(next_piece, next_move, captured=next_captured)
+
+                    study_board.set_true_en_passant(next_piece)
+                    # sounds
+                    study.play_sound(next_captured)
+                    # show methods
+                    study.show_bg(screen, flipped)
+                    study.show_last_move(screen, flipped)
+                    study.show_pieces(screen, flipped)
+                    # study.show_entered_moves(screen)
+                    study.next_turn()
+
                 # Show methods
                 study.show_bg(screen, flipped)
                 study.show_last_move(screen, flipped)
@@ -451,11 +481,8 @@ class Main:
 
                                     # If there is no need for another move
                                     if len(study_board.moves) == len(study.scheduler.due_today[0].sequence):
-                                        study.reset()
-                                        study = self.study
-                                        study_dragger = self.study.dragger
-                                        study_board = self.study.board
-                                        break
+                                        study.msg_color = study.config.study_right
+                                        self.moveable = False
 
                                     # In the other case, we need to play the next move in the drill
                                     # If the move made matches the drill sequence

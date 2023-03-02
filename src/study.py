@@ -10,7 +10,7 @@ class Study(Game):
     def __init__(self):
         super().__init__()
         self.msg_color = self.config.study_neutral
-        
+        self.first_move = True
         
 
     def load_drills(self):

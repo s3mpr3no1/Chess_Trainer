@@ -444,18 +444,19 @@ class Main:
 
                                 study.next_turn()
 
-                                """
-                                At this point, a move has been made. This move has been added to self.board.moves. Once the move 
-                                has been made, we need to check to see if it corresponds with the move present in self.scheduler.due_today[0]
-                                
-                                Specifically, the board moves should be a proper substring of the drill
+                                # If there is no need for another move
+                                if len(study_board.moves) == len(study.scheduler.due_today[0].sequence):
+                                    study.reset()
+                                    study = self.study
+                                    study_dragger = self.study.dragger
+                                    study_board = self.study.board
+                                    break
 
-
-                                """
+                                # In the other case, we need to play the next move in the drill
                                 # If the move made matches the drill sequence
-                                if study.scheduler.board_matches_drill(study_board):
+                                elif study.scheduler.board_matches_drill(study_board):
                                     # study_dragger.undrag_piece()
-                                    
+
                                     # Get the next move string from the drill
                                     next_move_string = study.scheduler.due_today[0].sequence[len(study_board.moves)]
                                     print(next_move_string)
@@ -481,6 +482,7 @@ class Main:
                                     # study.show_entered_moves(screen)
 
                                 study.next_turn()
+                                
 
 
                         study_dragger.undrag_piece()

@@ -24,6 +24,10 @@ class Config:
         self.move_sound = Sound(os.path.join('assets/sounds/move.mp3'))
         self.capture_sound = Sound(os.path.join('assets/sounds/capture.mp3'))
 
+        self.study_wrong = (255, 0, 0)
+        self.study_right = (0, 255, 0)
+        self.study_neutral = (255, 255, 255)
+
     def change_theme(self):
         self.idx += 1
         self.idx %= len(self.themes)

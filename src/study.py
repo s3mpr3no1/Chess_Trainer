@@ -9,10 +9,9 @@ class Study(Game):
 
     def __init__(self):
         super().__init__()
-
-       
-        self.study_msg = self.config.help_item.render("Study", False, (255, 255, 255))
-        self.study_msg_rect = self.study_msg.get_rect(center = ((WIDTH + ((TRUEWIDTH - WIDTH) / 2)), 50))
+        self.msg_color = self.config.study_neutral
+        
+        
 
     def load_drills(self):
         # Initialize the scheduler
@@ -27,4 +26,6 @@ class Study(Game):
     def show_bg(self, surface, flipped=False):
         super().show_bg(surface, flipped)
 
+        self.study_msg = self.config.help_item.render("Study", False, self.msg_color)
+        self.study_msg_rect = self.study_msg.get_rect(center = ((WIDTH + ((TRUEWIDTH - WIDTH) / 2)), 50))
         surface.blit(self.study_msg, self.study_msg_rect)

@@ -21,6 +21,9 @@ class Config:
         self.help_item = pygame.font.SysFont('impact', 50)
         self.help_item_hover = pygame.font.SysFont('impact', 55)
         self.move_font = pygame.font.SysFont('MONOSPACE', 25)
+
+        self.study_button_font = pygame.font.SysFont('arial', 20)
+
         self.move_sound = Sound(os.path.join('assets/sounds/move.mp3'))
         self.capture_sound = Sound(os.path.join('assets/sounds/capture.mp3'))
 

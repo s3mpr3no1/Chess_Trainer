@@ -26,6 +26,9 @@ class Main:
         # When this is false, the board will freeze
         self.moveable = True
 
+        # Finishing a drill automatically
+        self.show_answer = False
+
     def mainloop(self):
 
         game = self.game
@@ -353,15 +356,62 @@ class Main:
             elif mode == STUDY:
 
                 flipped = True if study.scheduler.due_today[0].color == "black" else False
+
+                # if someone hits the show answer button
+                if self.show_answer:
+                    # counter will be to delay the program ....
+                    counter = 0
+                    while self.show_answer:
+                        if counter > 75:
+                            # If there is no need for another move
+                            if len(study_board.moves) == len(study.scheduler.due_today[0].sequence):
+                                self.show_answer = False
+                                break
+
+                            # Play and add the next move
+                            # Get the next move string from the drill
+                            next_move_string = study.scheduler.due_today[0].sequence[len(study_board.moves)]
+                            # print(next_move_string)
+                            # Get the next move
+                            next_move = Move.move_from_string(next_move_string)
+                            # print(next_move)
+                            # Get the next piece
+                            next_piece = study_board.squares[next_move.initial.row][next_move.initial.col].piece
+
+                            # Check next captured status
+                            next_captured = study_board.squares[next_move.final.row][next_move.final.col].has_piece()
+
+                            # Make the move
+                            study_board.move(next_piece, next_move, captured=next_captured)
+
+                            study_board.set_true_en_passant(next_piece)
+                            # sounds
+                            study.play_sound(next_captured)
+                            # show methods
+                            study.show_bg(screen, flipped)
+                            study.show_last_move(screen, flipped)
+                            study.show_pieces(screen, flipped)
+                            # study.show_entered_moves(screen)
+                            study.next_turn()
+
+
+                            counter = 0
+                            
+                        else:
+                            study.show_bg(screen, flipped)
+                            study.show_last_move(screen, flipped)
+                            study.show_pieces(screen, flipped)
+                            counter += 1
+                        pygame.display.update()
                 
                 # If it's the first move of a black drill
                 if (len(study_board.moves) == 0) and flipped:
                     # Get the next move string from the drill
                     next_move_string = study.scheduler.due_today[0].sequence[len(study_board.moves)]
-                    print(next_move_string)
+                    # print(next_move_string)
                     # Get the next move
                     next_move = Move.move_from_string(next_move_string)
-                    print(next_move)
+                    # print(next_move)
                     # Get the next piece
                     next_piece = study_board.squares[next_move.initial.row][next_move.initial.col].piece
 
@@ -419,6 +469,10 @@ class Main:
                                         study.show_pieces(screen, flipped)
                                         # study.show_entered_moves(screen)
                             # Mouse in in the menu portion of the screen
+
+                            # The show answer button has been selected
+                            elif study.show_answer_button_rect.collidepoint(event.pos):
+                                self.show_answer = True
                         
                     
                     # Mouse motion
@@ -491,10 +545,10 @@ class Main:
 
                                         # Get the next move string from the drill
                                         next_move_string = study.scheduler.due_today[0].sequence[len(study_board.moves)]
-                                        print(next_move_string)
+                                        # print(next_move_string)
                                         # Get the next move
                                         next_move = Move.move_from_string(next_move_string)
-                                        print(next_move)
+                                        # print(next_move)
                                         # Get the next piece
                                         next_piece = study_board.squares[next_move.initial.row][next_move.initial.col].piece
 

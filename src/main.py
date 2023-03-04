@@ -362,7 +362,7 @@ class Main:
                     # counter will be to delay the program ....
                     counter = 0
                     while self.show_answer:
-                        if counter > 75:
+                        if counter > 25:
                             # If there is no need for another move
                             if len(study_board.moves) == len(study.scheduler.due_today[0].sequence):
                                 self.show_answer = False

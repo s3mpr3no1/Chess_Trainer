@@ -15,7 +15,8 @@ class Study(Game):
 
         self.show_answer_text = self.config.study_button_font.render("Show Answer", False, (0, 0, 0))
         self.show_answer_rect = self.show_answer_text.get_rect(center = ((WIDTH + ((TRUEWIDTH - WIDTH) / 2)), HEIGHT - 50))
-        self.show_answer_button_color = (180, 180, 180)
+        self.show_answer_button_color = (220, 220, 220)
+        self.show_answer_button_hover_color = (180, 180, 180)
         self.show_answer_button_rect = pygame.Rect(WIDTH + 140, HEIGHT - 60, 120, 25)
 
         self.anki_again_text = self.config.study_button_font.render("Again", False, (0, 0, 0))
@@ -29,6 +30,8 @@ class Study(Game):
         self.anki_easy_rect = self.anki_easy_text.get_rect(center = ((WIDTH + ((TRUEWIDTH - WIDTH) / 2)), 600))
 
         self.anki_button_color = (220, 220, 220)
+        self.anki_button_hover_color = (150, 150, 150)
+
         self.anki_again_button_rect = pygame.Rect(WIDTH + 140, 290, 120, 25)
         self.anki_hard_button_rect = pygame.Rect(WIDTH + 140, 390, 120, 25)
         self.anki_good_button_rect = pygame.Rect(WIDTH + 140, 490, 120, 25)
@@ -47,20 +50,31 @@ class Study(Game):
 
     def show_bg(self, surface, flipped=False):
         super().show_bg(surface, flipped)
+        mouse_pos = pygame.mouse.get_pos()
 
         self.study_msg = self.config.help_item.render("Study", False, self.msg_color)
         self.study_msg_rect = self.study_msg.get_rect(center = ((WIDTH + ((TRUEWIDTH - WIDTH) / 2)), 50))
         surface.blit(self.study_msg, self.study_msg_rect)
 
-        pygame.draw.rect(surface, self.show_answer_button_color, self.show_answer_button_rect)
+        show_color = self.show_answer_button_color if not self.show_answer_button_rect.collidepoint(mouse_pos) else self.show_answer_button_hover_color
+
+        pygame.draw.rect(surface, show_color, self.show_answer_button_rect)
         surface.blit(self.show_answer_text, self.show_answer_rect)
 
         # If we're in the endgame now
+        
         if self.show_anki_choices:
-            pygame.draw.rect(surface, self.anki_button_color, self.anki_again_button_rect)
-            pygame.draw.rect(surface, self.anki_button_color, self.anki_hard_button_rect)
-            pygame.draw.rect(surface, self.anki_button_color, self.anki_good_button_rect)
-            pygame.draw.rect(surface, self.anki_button_color, self.anki_easy_button_rect)
+            
+
+            again_color = self.anki_button_color if not self.anki_again_button_rect.collidepoint(mouse_pos) else self.anki_button_hover_color
+            hard_color = self.anki_button_color if not self.anki_hard_button_rect.collidepoint(mouse_pos) else self.anki_button_hover_color
+            good_color = self.anki_button_color if not self.anki_good_button_rect.collidepoint(mouse_pos) else self.anki_button_hover_color
+            easy_color = self.anki_button_color if not self.anki_easy_button_rect.collidepoint(mouse_pos) else self.anki_button_hover_color
+
+            pygame.draw.rect(surface, again_color, self.anki_again_button_rect)
+            pygame.draw.rect(surface, hard_color, self.anki_hard_button_rect)
+            pygame.draw.rect(surface, good_color, self.anki_good_button_rect)
+            pygame.draw.rect(surface, easy_color, self.anki_easy_button_rect)
 
             surface.blit(self.anki_again_text, self.anki_again_rect)
             surface.blit(self.anki_hard_text, self.anki_hard_rect)

@@ -366,6 +366,7 @@ class Main:
                             # If there is no need for another move
                             if len(study_board.moves) == len(study.scheduler.due_today[0].sequence):
                                 self.show_answer = False
+                                self.moveable = False
                                 break
 
                             # Play and add the next move

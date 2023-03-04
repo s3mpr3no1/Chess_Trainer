@@ -9,12 +9,31 @@ class Study(Game):
 
     def __init__(self):
         super().__init__()
+        self.show_anki_choices = False
+
         self.msg_color = self.config.study_neutral
 
         self.show_answer_text = self.config.study_button_font.render("Show Answer", False, (0, 0, 0))
         self.show_answer_rect = self.show_answer_text.get_rect(center = ((WIDTH + ((TRUEWIDTH - WIDTH) / 2)), HEIGHT - 50))
         self.show_answer_button_color = (180, 180, 180)
         self.show_answer_button_rect = pygame.Rect(WIDTH + 140, HEIGHT - 60, 120, 25)
+
+        self.anki_again_text = self.config.study_button_font.render("Again", False, (0, 0, 0))
+        self.anki_hard_text = self.config.study_button_font.render("Hard", False, (0, 0, 0))
+        self.anki_good_text = self.config.study_button_font.render("Good", False, (0, 0, 0))
+        self.anki_easy_text = self.config.study_button_font.render("Easy", False, (0, 0, 0))
+
+        self.anki_again_rect = self.anki_again_text.get_rect(center = ((WIDTH + ((TRUEWIDTH - WIDTH) / 2)), 300))
+        self.anki_hard_rect = self.anki_hard_text.get_rect(center = ((WIDTH + ((TRUEWIDTH - WIDTH) / 2)), 400))
+        self.anki_good_rect = self.anki_good_text.get_rect(center = ((WIDTH + ((TRUEWIDTH - WIDTH) / 2)), 500))
+        self.anki_easy_rect = self.anki_easy_text.get_rect(center = ((WIDTH + ((TRUEWIDTH - WIDTH) / 2)), 600))
+
+        self.anki_button_color = (220, 220, 220)
+        self.anki_again_button_rect = pygame.Rect(WIDTH + 140, 290, 120, 25)
+        self.anki_hard_button_rect = pygame.Rect(WIDTH + 140, 390, 120, 25)
+        self.anki_good_button_rect = pygame.Rect(WIDTH + 140, 490, 120, 25)
+        self.anki_easy_button_rect = pygame.Rect(WIDTH + 140, 590, 120, 25)
+
 
     def load_drills(self):
         # Initialize the scheduler
@@ -35,3 +54,15 @@ class Study(Game):
 
         pygame.draw.rect(surface, self.show_answer_button_color, self.show_answer_button_rect)
         surface.blit(self.show_answer_text, self.show_answer_rect)
+
+        # If we're in the endgame now
+        if self.show_anki_choices:
+            pygame.draw.rect(surface, self.anki_button_color, self.anki_again_button_rect)
+            pygame.draw.rect(surface, self.anki_button_color, self.anki_hard_button_rect)
+            pygame.draw.rect(surface, self.anki_button_color, self.anki_good_button_rect)
+            pygame.draw.rect(surface, self.anki_button_color, self.anki_easy_button_rect)
+
+            surface.blit(self.anki_again_text, self.anki_again_rect)
+            surface.blit(self.anki_hard_text, self.anki_hard_rect)
+            surface.blit(self.anki_good_text, self.anki_good_rect)
+            surface.blit(self.anki_easy_text, self.anki_easy_rect)

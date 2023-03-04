@@ -367,6 +367,7 @@ class Main:
                             if len(study_board.moves) == len(study.scheduler.due_today[0].sequence):
                                 self.show_answer = False
                                 self.moveable = False
+                                study.show_anki_choices = True
                                 break
 
                             # Play and add the next move
@@ -538,6 +539,7 @@ class Main:
                                     if len(study_board.moves) == len(study.scheduler.due_today[0].sequence):
                                         study.msg_color = study.config.study_right
                                         self.moveable = False
+                                        study.show_anki_choices = True
 
                                     # In the other case, we need to play the next move in the drill
                                     # If the move made matches the drill sequence
@@ -572,6 +574,7 @@ class Main:
                                     elif not study.scheduler.board_matches_drill(study_board):
                                         study.msg_color = study.config.study_wrong
                                         self.moveable = False
+                                        study.show_anki_choices = True
 
                                     study.next_turn()
                                 
@@ -611,6 +614,7 @@ class Main:
                 
                 
                 pygame.display.update()
+                # if not self.moveable: study.show_anki_choices = True
 
 main = Main()
 main.mainloop()

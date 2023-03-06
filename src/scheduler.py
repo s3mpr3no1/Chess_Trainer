@@ -113,6 +113,8 @@ class Scheduler:
         Moves the first element of the due today list to the end
         """
         if len(self.due_today) <= 1:
+            self.update_counts()
+            self.calc_intervals()
             return
         # print("Here")
         temp = self.due_today[0]
@@ -251,6 +253,7 @@ class Scheduler:
                     f.write(str(d))
 
     def calc_intervals(self):
+        # print(self.due_today[0])
         if len(self.due_today) == 0:
             return
         
@@ -263,6 +266,9 @@ class Scheduler:
             # print("here")
             self.hard_interval = "1m"
             self.easy_interval = self.int_to_duration(self.due_today[0].interval * (self.due_today[0].ease * 1.15))
+            # print("here")
+            # print(self.due_today[0].mode)
+            # print(self.due_today[0].relearn_step)
             self.good_interval = "10m" if self.due_today[0].relearn_step == 0 else "1d"
         elif self.due_today[0].mode == REVIEW:
             self.hard_interval = self.int_to_duration(self.due_today[0].interval * HARD_INTERVAL)

@@ -449,7 +449,7 @@ class Main:
                     study.show_last_move(screen, flipped)
                     study.show_pieces(screen, flipped)
                     # study.show_entered_moves(screen)
-                    study.next_turn()
+                    study.next_player = "black"
 
                 # Show methods
                 study.show_bg(screen, flipped)
@@ -607,18 +607,22 @@ class Main:
                                 study.scheduler.anki_again()
                                 study_board.reset()
                                 self.moveable = True
+                                study.show_anki_choices = False
                             elif study.anki_hard_button_rect.collidepoint(event.pos):
                                 study.scheduler.anki_hard()
                                 study_board.reset()
                                 self.moveable = True
+                                study.show_anki_choices = False
                             elif study.anki_good_button_rect.collidepoint(event.pos):
                                 study.scheduler.anki_good()
                                 study_board.reset()
                                 self.moveable = True
+                                study.show_anki_choices = False
                             elif study.anki_easy_button_rect.collidepoint(event.pos):
                                 study.scheduler.anki_easy()
                                 study_board.reset()
                                 self.moveable = True
+                                study.show_anki_choices = False
                             
 
                     # key press

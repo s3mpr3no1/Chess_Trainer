@@ -284,6 +284,9 @@ class Scheduler:
     
 
     def update_counts(self):
+        self.new_left = 0
+        self.relearn_left = 0
+        self.review_left = 0
         for d in self.due_today:
             if d.mode == NEW:
                 self.new_left += 1

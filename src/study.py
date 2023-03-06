@@ -37,7 +37,11 @@ class Study(Game):
         self.anki_good_button_rect = pygame.Rect(WIDTH + 140, 490, 120, 25)
         self.anki_easy_button_rect = pygame.Rect(WIDTH + 140, 590, 120, 25)
 
+        self.again_interval_text = self.config.study_button_font.render("1m", False, (225, 225, 225))
+        self.again_interval_rect = self.again_interval_text.get_rect(center = ((WIDTH + ((TRUEWIDTH - WIDTH) / 2)) + 100, 300))
 
+
+        
     def load_drills(self):
         # Initialize the scheduler
         self.scheduler = Scheduler()
@@ -80,3 +84,22 @@ class Study(Game):
             surface.blit(self.anki_hard_text, self.anki_hard_rect)
             surface.blit(self.anki_good_text, self.anki_good_rect)
             surface.blit(self.anki_easy_text, self.anki_easy_rect)
+
+            surface.blit(self.again_interval_text, self.again_interval_rect)
+
+            self.hard_interval_text = self.config.study_button_font.render(self.scheduler.hard_interval, False, (255, 255, 255))
+            self.hard_interval_rect = self.hard_interval_text.get_rect(center = ((WIDTH + ((TRUEWIDTH - WIDTH) / 2)) + 100, 400))
+
+            self.easy_interval_text = self.config.study_button_font.render(self.scheduler.easy_interval, False, (255, 255, 255))
+            self.easy_interval_rect = self.easy_interval_text.get_rect(center = ((WIDTH + ((TRUEWIDTH - WIDTH) / 2)) + 100, 600))
+
+            self.good_interval_text = self.config.study_button_font.render(self.scheduler.good_interval, False, (255, 255, 255))
+            self.good_interval_rect = self.good_interval_text.get_rect(center = ((WIDTH + ((TRUEWIDTH - WIDTH) / 2)) + 100, 500))
+
+            surface.blit(self.hard_interval_text, self.hard_interval_rect)
+            surface.blit(self.easy_interval_text, self.easy_interval_rect)
+            surface.blit(self.good_interval_text, self.good_interval_rect)
+
+
+
+            #again_interval_text = self.config.study_button_font.render(self.scheduler.due_today[0]., False, (225, 225, 225))

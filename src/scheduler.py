@@ -18,6 +18,10 @@ class Scheduler:
         # This tracks which drill in self.due_today is active
         self.drill_index = 0
 
+        self.hard_interval = 0
+        self.good_interval = 0
+        self.easy_interval = 0
+
         
 
     def load_drills(self, deck_file_name):
@@ -58,6 +62,7 @@ class Scheduler:
         
         self.due_today = self.drills[:cutoff]
         self.due_later = self.drills[cutoff:]
+        self.calc_intervals()
 
 
     def board_matches_drill(self, board):
@@ -77,6 +82,8 @@ class Scheduler:
         self.due_today = self.due_today[1:]
         self.due_today.append(temp)
 
+        self.calc_intervals()
+
     def pop_to_later(self):
         """
         Moves the first drill in due today to due later
@@ -91,6 +98,8 @@ class Scheduler:
             temp = self.due_today[0]
             self.due_today = self.due_today[1:]
             self.due_later.append(temp)
+
+        self.calc_intervals()
 
     def anki_again(self):
         if self.due_today[0].mode == NEW:
@@ -177,7 +186,7 @@ class Scheduler:
         # POSIX time stamp
         due_date = int(sections[4])
         due_date = datetime.datetime.fromtimestamp(due_date)
-        if interval == 0:
+        if interval == 1:
             mode = NEW
         else:
             mode = REVIEW
@@ -196,5 +205,37 @@ class Scheduler:
                 for d in self.due_today:
                     f.write(str(d))
 
+    def calc_intervals(self):
+        if len(self.due_today) == 0:
+            return
+        
+        if self.due_today[0].mode == NEW:
+            self.hard_interval = "1m"
+            # print(self.int_to_duration(self.due_today[0].interval * (self.due_today[0].ease * 1.15)))
+            self.easy_interval = self.int_to_duration(self.due_today[0].interval * (self.due_today[0].ease * 1.15))
+            self.good_interval = "10m"
+        elif self.due_today[0].mode == LEARN_RELEARN:
+            # print("here")
+            self.hard_interval = "1m"
+            self.easy_interval = self.int_to_duration(self.due_today[0].interval * (self.due_today[0].ease * 1.15))
+            self.good_interval = "10m" if self.due_today[0].relearn_step == 0 else "1d"
+        elif self.due_today[0].mode == REVIEW:
+            self.hard_interval = self.int_to_duration(self.due_today[0].interval * HARD_INTERVAL)
+            self.easy_interval = self.int_to_duration(self.due_today[0].interval * (self.due_today[0].ease * 1.15))
+            self.good_interval = self.int_to_duration(self.due_today[0].interval * self.due_today[0].ease)
+
+        print(self.good_interval)
+        print(self.easy_interval)
+
+    def int_to_duration(self, days):
+        duration = ""
+        if days < 30:
+            duration = duration + str(int(days)) + "d"
+        elif 30 < days < 365:
+            duration = duration + str(round(float(days / 30), 1)) + "mo"
+        else:
+            duration = duration + str(round(float(days / 365), 1)) + "y"
+        return duration
+        
     
 

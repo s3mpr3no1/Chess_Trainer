@@ -354,7 +354,23 @@ class Main:
                 pygame.display.update()
 
             elif mode == STUDY:
+                if len(study.scheduler.due_today) == 0:
+                    help.show_bg(screen)
 
+                    for event in pygame.event.get():
+
+                        if event.type == pygame.KEYDOWN:
+                            
+                            if event.key == pygame.K_m:
+                                mode = TITLE_SCREEN
+
+                        elif event.type == pygame.QUIT:
+                            pygame.quit()
+                            sys.exit()
+
+                    pygame.display.update()
+                    continue
+                
                 flipped = True if study.scheduler.due_today[0].color == "black" else False
 
                 # if someone hits the show answer button
@@ -636,6 +652,11 @@ class Main:
                 
                 pygame.display.update()
                 # if not self.moveable: study.show_anki_choices = True
+
+            # # No drills to complete
+            # elif mode == STUDY and len(study.scheduler.due_today) != 0:
+            #     print("Done")
+            #     mode = HELP
 
 main = Main()
 main.mainloop()

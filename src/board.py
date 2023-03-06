@@ -15,14 +15,24 @@ class Board:
         self._add_pieces("white")
         self._add_pieces("black")
         self.moves = []
+        self.prev_board = []
 
     def reset(self):
         self.__init__()
+
+    def revert(self):
+        self.squares = self.prev_board
+        self.moves = self.moves[:-1]
+        self.last_move = self.last_last_move
 
     
         
 
     def move(self, piece, move, testing = False, captured=False):
+        if testing == False:
+            self.prev_board = copy.deepcopy(self.squares)
+            self.last_last_move = self.last_move
+
         initial = move.initial
         final = move.final
 

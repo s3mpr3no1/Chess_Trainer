@@ -10,6 +10,7 @@ class Study(Game):
     def __init__(self):
         super().__init__()
         self.show_anki_choices = False
+        self.wrong_move = False
 
         self.msg_color = self.config.study_neutral
 
@@ -40,7 +41,8 @@ class Study(Game):
         self.again_interval_text = self.config.study_button_font.render("1m", False, (225, 225, 225))
         self.again_interval_rect = self.again_interval_text.get_rect(center = ((WIDTH + ((TRUEWIDTH - WIDTH) / 2)) + 100, 300))
 
-
+        self.undo_text = self.config.help_item.render("<--", False, (255, 0, 0))
+        self.undo_rect = self.undo_text.get_rect(center = ((WIDTH + ((TRUEWIDTH - WIDTH) / 2)) - 100, 50))
         
     def load_drills(self):
         # Initialize the scheduler
@@ -115,6 +117,9 @@ class Study(Game):
             surface.blit(self.hard_interval_text, self.hard_interval_rect)
             surface.blit(self.easy_interval_text, self.easy_interval_rect)
             surface.blit(self.good_interval_text, self.good_interval_rect)
+
+        if self.wrong_move:
+            surface.blit(self.undo_text, self.undo_rect)
 
 
 

@@ -30,6 +30,9 @@ class Main:
         # Finishing a drill automatically
         self.show_answer = False
 
+        # Wrong move played
+        # self.wrong_move = False
+
     def mainloop(self):
 
         game = self.game
@@ -592,7 +595,11 @@ class Main:
                                     elif not study.scheduler.board_matches_drill(study_board):
                                         study.msg_color = study.config.study_wrong
                                         self.moveable = False
-                                        study.show_anki_choices = True
+                                        study.wrong_move = True
+                                        # study.show_anki_choices = True
+                                        # study_board.revert()
+                                        
+                                        # self.show_answer = True
 
                                     study.next_turn()
                                 
@@ -600,6 +607,13 @@ class Main:
 
                             study_dragger.undrag_piece()
 
+                        # If we are in the end state because of a wrong move
+                        elif not self.moveable and study.wrong_move:
+                            if study.undo_rect.collidepoint(event.pos):
+                                study.msg_color = study.config.study_neutral
+                                study_board.revert()
+                                study.wrong_move = False
+                                self.moveable = True
                         # At this point, we're in the end state. Anki buttons are now live
                         # event.pos is the place the button release occurs
                         else: 

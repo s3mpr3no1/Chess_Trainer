@@ -24,7 +24,7 @@ class Drill:
             drill_text += ','
         drill_text = drill_text[:-1]
         drill_text += ":"
-        drill_text = drill_text + str(self.ease) + ":" + str(int(self.interval)) + ":" + self.color + ":" + str(int(self.due_date.timestamp())) + "\n"
+        drill_text = drill_text + str(self.ease) + ":" + str(int(self.interval)) + ":" + str(self.mode) + ":" + self.color + ":" + str(int(self.due_date.timestamp())) + "\n"
         return drill_text
 
 

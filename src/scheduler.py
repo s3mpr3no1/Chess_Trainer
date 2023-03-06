@@ -22,6 +22,36 @@ class Scheduler:
         self.good_interval = 0
         self.easy_interval = 0
 
+    def load_new_drills(self):
+        """
+        Takes new drills from the new drill file and adds 20 of them to the new 
+        """
+        new_drills = []
+        todays_new_drills = []
+        with open(NEW_DRILLFILE, 'a') as f:
+            pass
+        with open(NEW_DRILLFILE, 'r') as f:
+            new_drills = f.readlines()
+
+        new_drills = [self.get_drill_from_deck_string(line) for line in new_drills]
+
+        #At this point the due date is a datetime object
+
+        if len(new_drills) > NEW_DRILLS_PER_DAY:
+            todays_new_drills = new_drills[:NEW_DRILLS_PER_DAY]
+            drills_to_rewrite = new_drills[NEW_DRILLS_PER_DAY:]
+            with open(NEW_DRILLFILE, "w") as f:
+                for d in drills_to_rewrite:
+                    f.write(str(d))
+        else:
+            todays_new_drills = new_drills
+            with open(NEW_DRILLFILE, "w") as f:
+                pass
+
+        for d in todays_new_drills:
+            self.due_today.append(d)
+
+        
         
 
     def load_drills(self, deck_file_name):
@@ -62,6 +92,7 @@ class Scheduler:
         
         self.due_today = self.drills[:cutoff]
         self.due_later = self.drills[cutoff:]
+        self.load_new_drills()
         self.calc_intervals()
 
 
@@ -129,7 +160,7 @@ class Scheduler:
         elif self.due_today[0].mode == REVIEW:
             self.due_today[0].ease *= 0.85
             self.due_today[0].interval = int(self.due_today[0].interval * HARD_INTERVAL)
-            self.due_today[0].due_date = int(datetime.datetime.now().timestamp()) + self.due_today[0].interval * DAY_SECONDS
+            self.due_today[0].due_date = datetime.datetime.fromtimestamp(int(datetime.datetime.now().timestamp()) + self.due_today[0].interval * DAY_SECONDS)
             self.pop_to_later()
 
     def anki_good(self):
@@ -139,7 +170,7 @@ class Scheduler:
             self.pop_to_end()
         elif self.due_today[0].mode == LEARN_RELEARN:
             # If the card does not graduate
-            if self.due_today[0].relearn_step < 2:
+            if self.due_today[0].relearn_step < 1:
                 self.due_today[0].relearn_step += 1
                 self.pop_to_end()
             # If the card graduates
@@ -147,11 +178,11 @@ class Scheduler:
                 self.due_today[0].mode = REVIEW
                 self.due_today[0].relearn_step = 0
                 self.due_today[0].interval = 1
-                self.due_today[0].due_date = int(datetime.datetime.now().timestamp()) + self.due_today[0].interval * DAY_SECONDS
+                self.due_today[0].due_date = datetime.datetime.fromtimestamp(int(datetime.datetime.now().timestamp()) + self.due_today[0].interval * DAY_SECONDS)
                 self.pop_to_later()
         elif self.due_today[0].mode == REVIEW:
             self.due_today[0].interval *= self.due_today[0].ease
-            self.due_today[0].due_date = int(datetime.datetime.now().timestamp()) + self.due_today[0].interval * DAY_SECONDS
+            self.due_today[0].due_date = datetime.datetime.fromtimestamp(int(datetime.datetime.now().timestamp()) + self.due_today[0].interval * DAY_SECONDS)
             self.pop_to_later()
 
     def anki_easy(self):
@@ -160,13 +191,13 @@ class Scheduler:
             self.due_today[0].mode = REVIEW
             self.due_today[0].ease *= 1.15
             self.due_today[0].interval *= self.due_today[0].ease
-            self.due_today[0].due_date = int(datetime.datetime.now().timestamp()) + self.due_today[0].interval * DAY_SECONDS
+            self.due_today[0].due_date = datetime.datetime.fromtimestamp(int(datetime.datetime.now().timestamp()) + self.due_today[0].interval * DAY_SECONDS)
             self.pop_to_later()
             # print(self.due_today[0].color)
         elif self.due_today[0].mode == REVIEW:
             self.due_today[0].ease *= 1.15
             self.due_today[0].interval *= self.due_today[0].ease
-            self.due_today[0].due_date = int(datetime.datetime.now().timestamp()) + self.due_today[0].interval * DAY_SECONDS
+            self.due_today[0].due_date = datetime.datetime.fromtimestamp(int(datetime.datetime.now().timestamp()) + self.due_today[0].interval * DAY_SECONDS)
             self.pop_to_later()
 
 
@@ -182,14 +213,15 @@ class Scheduler:
         sequence = sections[0].split(",")
         ease = float(sections[1])
         interval = int(sections[2])
-        color = sections[3]
+        mode = int(sections[3])
+        color = sections[4]
         # POSIX time stamp
-        due_date = int(sections[4])
+        due_date = int(sections[5])
         due_date = datetime.datetime.fromtimestamp(due_date)
-        if interval == 1:
-            mode = NEW
-        else:
-            mode = REVIEW
+        # if interval == 1:
+        #     mode = NEW
+        # else:
+        #     mode = REVIEW
         return Drill(sequence, mode, ease, interval, due_date, color)
     
 
@@ -201,6 +233,11 @@ class Scheduler:
                 for d in self.due_later:
                     f.write(str(d))
             
+            if len(self.due_today) > 0:
+                for d in self.due_today:
+                    if d.mode != NEW:
+                        f.write(str(d))
+        with open(NEW_DRILLFILE, 'a') as f:
             if len(self.due_today) > 0:
                 for d in self.due_today:
                     f.write(str(d))
@@ -224,8 +261,8 @@ class Scheduler:
             self.easy_interval = self.int_to_duration(self.due_today[0].interval * (self.due_today[0].ease * 1.15))
             self.good_interval = self.int_to_duration(self.due_today[0].interval * self.due_today[0].ease)
 
-        print(self.good_interval)
-        print(self.easy_interval)
+        # print(self.good_interval)
+        # print(self.easy_interval)
 
     def int_to_duration(self, days):
         duration = ""

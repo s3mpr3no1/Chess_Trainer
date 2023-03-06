@@ -51,6 +51,7 @@ class Study(Game):
         self.scheduler.get_due_today()
         # At this point, scheduler.due_today and due_later contain the drills in each respective category
         # print(self.scheduler.due_today)
+        #print(self.scheduler.due_today[0])
 
     def show_bg(self, surface, flipped=False):
         super().show_bg(surface, flipped)

@@ -366,6 +366,8 @@ class Main:
                                 mode = TITLE_SCREEN
 
                         elif event.type == pygame.QUIT:
+                            print("HERE")
+                            print(study.scheduler.due_later[0].due_date)
                             study.scheduler.write_to_file()
                             pygame.quit()
                             sys.exit()

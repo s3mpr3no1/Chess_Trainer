@@ -90,12 +90,13 @@ class DrillAdder(Game):
         drill_contents = drill_contents[:-1]
         ease = str(2.5)
         interval = str(1)
+        mode = str(NEW)
         # POSIX time stamp
         due_date = str(int(datetime.datetime.now().timestamp()))
 
-        log_entry = drill_contents + ":" + ease + ":" + interval + ":" + self.color + ":" + due_date + "\n"
+        log_entry = drill_contents + ":" + ease + ":" + interval + ":" + mode + ":" + self.color + ":" + due_date + "\n"
         
-        with open(DRILLFILE, 'a') as f:
+        with open(NEW_DRILLFILE, 'a') as f:
             f.write(log_entry)
 
     def switch_color(self):

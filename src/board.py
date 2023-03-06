@@ -16,6 +16,9 @@ class Board:
         self._add_pieces("black")
         self.moves = []
 
+    def reset(self):
+        self.__init__()
+
     
         
 

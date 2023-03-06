@@ -64,6 +64,101 @@ class Scheduler:
                 return False
         return True
 
+    def pop_to_end(self):
+        """
+        Moves the first element of the due today list to the end
+        """
+        if len(self.due_today) <= 1:
+            return
+        # print("Here")
+        temp = self.due_today[0]
+        self.due_today = self.due_today[1:]
+        self.due_today.append(temp)
+
+    def pop_to_later(self):
+        """
+        Moves the first drill in due today to due later
+        """
+        if len(self.due_today) == 1:
+            temp = self.due_today[0]
+            self.due_today = []
+            self.due_later.append(temp)
+        elif len(self.due_today) == 0:
+            return
+        else: 
+            temp = self.due_today[0]
+            self.due_today = self.due_today[1:]
+            self.due_later.append(temp)
+
+    def anki_again(self):
+        if self.due_today[0].mode == NEW:
+            self.due_today[0].mode = LEARN_RELEARN
+            self.pop_to_end()
+        elif self.due_today[0].mode == LEARN_RELEARN:
+            self.due_today[0].relearn_step = 0
+            self.pop_to_end()
+        elif self.due_today[0].mode == REVIEW:
+            # Turn the card back into a learn/relearn
+            self.due_today[0].interval = 0
+            self.due_today[0].ease *= 0.8
+            self.due_today[0].relearn_step = 0
+            self.due_today[0].mode = LEARN_RELEARN
+            self.pop_to_end()
+        # self.due_today[0].mode = LEARN_RELEARN
+
+        # Move the drill to the end
+        #self.pop_to_end()
+
+    def anki_hard(self):
+        if self.due_today[0].mode == NEW:
+            self.due_today[0].mode = LEARN_RELEARN
+            self.pop_to_end()
+        elif self.due_today[0].mode == LEARN_RELEARN:
+            self.pop_to_end()
+        elif self.due_today[0].mode == REVIEW:
+            self.due_today[0].ease *= 0.85
+            self.due_today[0].interval = int(self.due_today[0].interval * HARD_INTERVAL)
+            self.due_today[0].due_date = int(datetime.datetime.now().timestamp()) + self.due_today[0].interval * DAY_SECONDS
+            self.pop_to_later()
+
+    def anki_good(self):
+        if self.due_today[0].mode == NEW:
+            self.due_today[0].mode = LEARN_RELEARN
+            self.due_today[0].relearn_step += 1
+            self.pop_to_end()
+        elif self.due_today[0].mode == LEARN_RELEARN:
+            # If the card does not graduate
+            if self.due_today[0].relearn_step < 2:
+                self.due_today[0].relearn_step += 1
+                self.pop_to_end()
+            # If the card graduates
+            else:
+                self.due_today[0].mode = REVIEW
+                self.due_today[0].relearn_step = 0
+                self.due_today[0].interval = 1
+                self.due_today[0].due_date = int(datetime.datetime.now().timestamp()) + self.due_today[0].interval * DAY_SECONDS
+                self.pop_to_later()
+        elif self.due_today[0].mode == REVIEW:
+            self.due_today[0].interval *= self.due_today[0].ease
+            self.due_today[0].due_date = int(datetime.datetime.now().timestamp()) + self.due_today[0].interval * DAY_SECONDS
+            self.pop_to_later()
+
+    def anki_easy(self):
+        # print(self.due_today[1].color)
+        if self.due_today[0].mode == NEW or self.due_today[0].mode == LEARN_RELEARN:
+            self.due_today[0].mode = REVIEW
+            self.due_today[0].ease *= 1.15
+            self.due_today[0].interval *= self.due_today[0].ease
+            self.due_today[0].due_date = int(datetime.datetime.now().timestamp()) + self.due_today[0].interval * DAY_SECONDS
+            self.pop_to_later()
+            # print(self.due_today[0].color)
+        elif self.due_today[0].mode == REVIEW:
+            self.due_today[0].ease *= 1.15
+            self.due_today[0].interval *= self.due_today[0].ease
+            self.due_today[0].due_date = int(datetime.datetime.now().timestamp()) + self.due_today[0].interval * DAY_SECONDS
+            self.pop_to_later()
+
+
 
 
     @staticmethod

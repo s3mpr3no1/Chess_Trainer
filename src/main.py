@@ -362,7 +362,7 @@ class Main:
                     # counter will be to delay the program ....
                     counter = 0
                     while self.show_answer:
-                        if counter > 25:
+                        if counter > SHOW_ANSWER_DELAY:
                             # If there is no need for another move
                             if len(study_board.moves) == len(study.scheduler.due_today[0].sequence):
                                 self.show_answer = False
@@ -581,6 +581,27 @@ class Main:
 
 
                             study_dragger.undrag_piece()
+
+                        # At this point, we're in the end state. Anki buttons are now live
+                        # event.pos is the place the button release occurs
+                        else: 
+                            if study.anki_again_button_rect.collidepoint(event.pos):
+                                study.scheduler.anki_again()
+                                study_board.reset()
+                                self.moveable = True
+                            elif study.anki_hard_button_rect.collidepoint(event.pos):
+                                study.scheduler.anki_hard()
+                                study_board.reset()
+                                self.moveable = True
+                            elif study.anki_good_button_rect.collidepoint(event.pos):
+                                study.scheduler.anki_good()
+                                study_board.reset()
+                                self.moveable = True
+                            elif study.anki_easy_button_rect.collidepoint(event.pos):
+                                study.scheduler.anki_easy()
+                                study_board.reset()
+                                self.moveable = True
+                            
 
                     # key press
                     elif event.type == pygame.KEYDOWN:

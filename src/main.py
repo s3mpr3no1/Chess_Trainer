@@ -9,7 +9,7 @@ from title import Title
 from help import Help
 from add_drills import DrillAdder
 from study import Study
-import time
+from drills_complete import DrillComplete
 
 class Main:
 
@@ -22,6 +22,7 @@ class Main:
         self.help = Help()
         self.drill_adder = DrillAdder()
         self.study = Study()
+        self.complete = DrillComplete()
 
         # When this is false, the board will freeze
         self.moveable = True
@@ -355,7 +356,7 @@ class Main:
 
             elif mode == STUDY:
                 if len(study.scheduler.due_today) == 0:
-                    help.show_bg(screen)
+                    self.complete.show_bg(screen)
 
                     for event in pygame.event.get():
 

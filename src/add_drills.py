@@ -89,7 +89,7 @@ class DrillAdder(Game):
             drill_contents += ","
         drill_contents = drill_contents[:-1]
         ease = str(2.5)
-        interval = str(0)
+        interval = str(1)
         # POSIX time stamp
         due_date = str(int(datetime.datetime.now().timestamp()))
 

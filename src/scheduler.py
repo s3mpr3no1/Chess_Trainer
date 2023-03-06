@@ -18,6 +18,8 @@ class Scheduler:
         # This tracks which drill in self.due_today is active
         self.drill_index = 0
 
+        
+
     def load_drills(self, deck_file_name):
         """
         This is separate from the __init__ method so that users can alternate between the drill add and drill practice modes
@@ -99,7 +101,7 @@ class Scheduler:
             self.pop_to_end()
         elif self.due_today[0].mode == REVIEW:
             # Turn the card back into a learn/relearn
-            self.due_today[0].interval = 0
+            self.due_today[0].interval = 1
             self.due_today[0].ease *= 0.8
             self.due_today[0].relearn_step = 0
             self.due_today[0].mode = LEARN_RELEARN
@@ -180,5 +182,19 @@ class Scheduler:
         else:
             mode = REVIEW
         return Drill(sequence, mode, ease, interval, due_date, color)
+    
 
+    def write_to_file(self):
+        if len(self.due_later) == len(self.due_today) == 0:
+            return
+        with open(DRILLFILE, 'w') as f:
+            if len(self.due_later) > 0:
+                for d in self.due_later:
+                    f.write(str(d))
+            
+            if len(self.due_today) > 0:
+                for d in self.due_today:
+                    f.write(str(d))
+
+    
 

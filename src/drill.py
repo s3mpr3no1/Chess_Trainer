@@ -17,6 +17,17 @@ class Drill:
         self.color = color
         self.relearn_step = relearn_step
 
+    def __str__(self):
+        drill_text = ""
+        for move in self.sequence:
+            drill_text += move
+            drill_text += ','
+        drill_text = drill_text[:-1]
+        drill_text += ":"
+        drill_text = drill_text + str(self.ease) + ":" + str(int(self.interval)) + ":" + self.color + ":" + str(int(self.due_date)) + "\n"
+        return drill_text
+
+
 
 
 

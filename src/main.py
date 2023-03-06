@@ -365,6 +365,7 @@ class Main:
                                 mode = TITLE_SCREEN
 
                         elif event.type == pygame.QUIT:
+                            study.scheduler.write_to_file()
                             pygame.quit()
                             sys.exit()
 
@@ -644,6 +645,7 @@ class Main:
                     
                     # Quit the application
                     elif event.type == pygame.QUIT:
+                        study.scheduler.write_to_file()
                         pygame.quit()
                         sys.exit()
                 

@@ -623,6 +623,9 @@ class Main:
                                 study_board.reset()
                                 self.moveable = True
                                 study.show_anki_choices = False
+
+                            if len(study.scheduler.due_today) > 0 and study.scheduler.due_today[0].color == "white":
+                                study.next_player = "white"
                             
 
                     # key press

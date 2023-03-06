@@ -66,6 +66,21 @@ class Study(Game):
         pygame.draw.rect(surface, show_color, self.show_answer_button_rect)
         surface.blit(self.show_answer_text, self.show_answer_rect)
 
+        self.new_left_msg = self.config.study_button_font.render(str(self.scheduler.new_left), False, (0, 0, 255))
+        self.relearn_left_msg = self.config.study_button_font.render(str(self.scheduler.relearn_left), False, (255, 0, 0))
+        self.review_left_msg = self.config.study_button_font.render(str(self.scheduler.review_left), False, (0, 255, 0))
+
+
+        self.new_left_rect = self.new_left_msg.get_rect(center = ((WIDTH + ((TRUEWIDTH - WIDTH) / 2)) - 100, HEIGHT - 100))
+        self.relearn_left_rect = self.relearn_left_msg.get_rect(center = ((WIDTH + ((TRUEWIDTH - WIDTH) / 2)), HEIGHT - 100))
+        self.review_left_rect = self.review_left_msg.get_rect(center = ((WIDTH + ((TRUEWIDTH - WIDTH) / 2)) + 100, HEIGHT - 100))
+
+        surface.blit(self.new_left_msg, self.new_left_rect)
+        surface.blit(self.relearn_left_msg, self.relearn_left_rect)
+        surface.blit(self.review_left_msg, self.review_left_rect)
+
+        
+
         # If we're in the endgame now
         
         if self.show_anki_choices:

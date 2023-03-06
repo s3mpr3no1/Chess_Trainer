@@ -22,6 +22,10 @@ class Scheduler:
         self.good_interval = 0
         self.easy_interval = 0
 
+        self.new_left = 0
+        self.relearn_left = 0
+        self.review_left = 0
+
     def load_new_drills(self):
         """
         Takes new drills from the new drill file and adds 20 of them to the new 
@@ -93,6 +97,8 @@ class Scheduler:
         self.due_today = self.drills[:cutoff]
         self.due_later = self.drills[cutoff:]
         self.load_new_drills()
+
+        self.update_counts()
         self.calc_intervals()
 
 
@@ -112,7 +118,8 @@ class Scheduler:
         temp = self.due_today[0]
         self.due_today = self.due_today[1:]
         self.due_today.append(temp)
-
+        
+        self.update_counts()
         self.calc_intervals()
 
     def pop_to_later(self):
@@ -130,6 +137,7 @@ class Scheduler:
             self.due_today = self.due_today[1:]
             self.due_later.append(temp)
 
+        self.update_counts()
         self.calc_intervals()
 
     def anki_again(self):
@@ -273,6 +281,16 @@ class Scheduler:
         else:
             duration = duration + str(round(float(days / 365), 1)) + "y"
         return duration
+    
+
+    def update_counts(self):
+        for d in self.due_today:
+            if d.mode == NEW:
+                self.new_left += 1
+            elif d.mode == LEARN_RELEARN:
+                self.relearn_left += 1
+            elif d.mode == REVIEW:
+                self.review_left += 1
         
     
 

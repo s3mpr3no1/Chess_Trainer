@@ -221,7 +221,7 @@ class Scheduler:
         
         sections = deck_string.strip().split(":")
         sequence = sections[0].split(",")
-        ease = float(sections[1])
+        ease = round(float(sections[1]), 2)
         interval = int(sections[2])
         mode = int(sections[3])
         color = sections[4]

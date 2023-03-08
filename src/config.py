@@ -15,10 +15,11 @@ class Config:
         self.font = pygame.font.SysFont('monospace', 18, bold=True)
         self.title_font = pygame.font.SysFont('impact', 100)
         
-        self.menu_item_font = pygame.font.SysFont('impact', 75)
+        # self.menu_item_font = pygame.font.SysFont('franklingothicbook', 75)
+        self.menu_item_font = pygame.font.Font('assets/fonts/Game of Thrones.ttf', 60)
         self.menu_item_font_hover = pygame.font.SysFont('impact', 80)
 
-        self.help_item = pygame.font.SysFont('impact', 50)
+        self.help_item = pygame.font.SysFont('courier', 50)
         self.help_item_hover = pygame.font.SysFont('impact', 55)
         self.move_font = pygame.font.SysFont('MONOSPACE', 25)
 
@@ -30,6 +31,10 @@ class Config:
         self.study_wrong = (255, 0, 0)
         self.study_right = (0, 255, 0)
         self.study_neutral = (255, 255, 255)
+
+        self.theme_bg = (37, 34, 44)
+        self.theme_blue = (30, 174, 228)
+        self.theme_hover = (14, 46, 68)
 
     def change_theme(self):
         self.idx += 1

@@ -32,6 +32,7 @@ class Main:
 
         # Wrong move played
         # self.wrong_move = False
+        # print(pygame.font.get_fonts())
 
     def mainloop(self):
 

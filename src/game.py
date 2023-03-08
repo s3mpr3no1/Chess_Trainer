@@ -50,7 +50,7 @@ class Game:
                     
                     lbl_pos = (col * SQSIZE + SQSIZE - 20, HEIGHT - 20)
                     surface.blit(lbl, lbl_pos)
-        color = (70, 70, 70)
+        color = self.config.theme_bg
         rect = (WIDTH, 0, TRUEWIDTH - WIDTH, HEIGHT)
         pygame.draw.rect(surface, color, rect)
         color = (0,0,0)

@@ -11,23 +11,23 @@ class DrillAdder(Game):
 
         self.color = "white"
 
-        self.add_msg = self.config.help_item.render("Add Drill:", False, (255, 255, 255))
+        self.add_msg = self.config.help_item.render("Color:", False, self.config.theme_blue)
         self.add_msg_rect = self.add_msg.get_rect(center = ((WIDTH + ((TRUEWIDTH - WIDTH) / 2)), 50))
 
         self.color_center = (TRUEWIDTH - 50, 50)
-        self.color_color = (255, 255, 255)
+        self.color_color = self.config.theme_blue
         self.color_rect = pygame.Rect(TRUEWIDTH - 60, 40, 20, 20)
 
-        self.button_color = (150, 150, 150)
-        self.button_rect = (WIDTH + 50, HEIGHT - 150, 300, 100)
+        self.button_color = self.config.theme_hover
+        self.button_rect = pygame.Rect(WIDTH + 50, HEIGHT - 150, 300, 100)
         self.big_button_rect = (WIDTH + 40, HEIGHT - 160, 320, 120)
         # self.big_button = self.button_rect.inflate(10, 10)
         
-        self.save_msg = self.config.help_item.render("Save", False, (0,0,0))
+        self.save_msg = self.config.help_item.render("Save", False, self.config.theme_blue)
         self.save_msg_rect = self.save_msg.get_rect(center = ((WIDTH + ((TRUEWIDTH - WIDTH) // 2)), 700))
 
-        self.save_msg_hover = self.config.help_item_hover.render("Save", False, (0,0,0))
-        self.save_msg_hover_rect = self.save_msg_hover.get_rect(center = ((WIDTH + ((TRUEWIDTH - WIDTH) // 2)), 700))
+        # self.save_msg_hover = self.config.help_item_hover.render("Save", False, self.config.theme_blue)
+        # self.save_msg_hover_rect = self.save_msg_hover.get_rect(center = ((WIDTH + ((TRUEWIDTH - WIDTH) // 2)), 700))
 
         self.indicator_color = (209, 0, 126)
 
@@ -38,12 +38,17 @@ class DrillAdder(Game):
 
         surface.blit(self.add_msg, self.add_msg_rect)
         mouse_pos = pygame.mouse.get_pos()
-        pygame.draw.rect(surface, self.button_color, self.button_rect, border_radius=20)
+        
 
-        if self.save_msg_rect.collidepoint(mouse_pos):
-            surface.blit(self.save_msg_hover, self.save_msg_hover_rect)
-        else:
-            surface.blit(self.save_msg, self.save_msg_rect)
+        # if self.save_msg_rect.collidepoint(mouse_pos):
+        #     surface.blit(self.save_msg_hover, self.save_msg_hover_rect)
+        # else:
+        #     surface.blit(self.save_msg, self.save_msg_rect)
+
+        if self.button_rect.collidepoint(mouse_pos):
+            pygame.draw.rect(surface, self.button_color, self.button_rect, border_radius=20)
+
+        surface.blit(self.save_msg, self.save_msg_rect)
         
         width = 5 if self.color == "black" else 0
         pygame.draw.circle(surface, self.color_color, self.color_center, 30, width)

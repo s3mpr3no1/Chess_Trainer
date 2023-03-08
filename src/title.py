@@ -29,12 +29,14 @@ class Title:
         # self.title_message_rect = self.title_message.get_rect(center = ((WIDTH // 2), (HEIGHT // 8)))
 
         self.study_message = self.config.menu_item_font.render("Study", False, self.option_color)
+        # self.study_message = pygame.image.load('assets/graphics/study.png').convert_alpha()
+        # self.study_message = pygame.transform.scale(self.study_message, (400, 300))
         self.study_message_rect = self.study_message.get_rect(center = ((TRUEWIDTH // 4), (HEIGHT // 4)))
 
         # self.study_message_hover = self.config.menu_item_font_hover.render("Study", False, self.option_color)
         # self.study_message_rect_hover = self.study_message_hover.get_rect(center = ((TRUEWIDTH // 4), (HEIGHT // 4)))
 
-        self.add_message = self.config.menu_item_font.render("Add Drills", False, self.option_color)
+        self.add_message = self.config.menu_item_font.render("Add  Drills", False, self.option_color)
         self.add_message_rect = self.add_message.get_rect(center = (3 * (TRUEWIDTH // 4), (HEIGHT // 4)))
 
         # self.add_message_hover = self.config.menu_item_font_hover.render("Add Drills", False, self.option_color)

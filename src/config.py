@@ -10,7 +10,7 @@ class Config:
     def __init__(self):
         self.themes = []
         self._add_themes()
-        self.idx = 1
+        self.idx = 2
         self.theme = self.themes[self.idx]
         self.font = pygame.font.SysFont('monospace', 18, bold=True)
         self.title_font = pygame.font.SysFont('impact', 100)

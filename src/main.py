@@ -53,6 +53,8 @@ class Main:
 
         # Set title screen
         mode = TITLE_SCREEN
+
+        title.show_startup(screen)
         
         while True: 
             if mode == TITLE_SCREEN:
@@ -67,6 +69,9 @@ class Main:
                         mode = title.get_collision(event.pos)
                         if mode == STUDY:
                             study.load_drills()
+                    
+                    elif event.type == pygame.MOUSEMOTION:
+                        pass
 
                     # Quit the application
                     elif event.type == pygame.QUIT:

@@ -31,14 +31,15 @@ class Study(Game):
         self.anki_easy_rect = self.anki_easy_text.get_rect(center = ((WIDTH + ((TRUEWIDTH - WIDTH) / 2)), 600))
 
         self.anki_button_color = (220, 220, 220)
-        self.anki_button_hover_color = (150, 150, 150)
+        # self.anki_button_hover_color = (150, 150, 150)
+        self.anki_button_hover_color = self.config.theme_blue
 
         self.anki_again_button_rect = pygame.Rect(WIDTH + 140, 290, 120, 25)
         self.anki_hard_button_rect = pygame.Rect(WIDTH + 140, 390, 120, 25)
         self.anki_good_button_rect = pygame.Rect(WIDTH + 140, 490, 120, 25)
         self.anki_easy_button_rect = pygame.Rect(WIDTH + 140, 590, 120, 25)
 
-        self.again_interval_text = self.config.study_button_font.render("1m", False, (225, 225, 225))
+        self.again_interval_text = self.config.study_button_font.render("1m", False, self.config.theme_blue)
         self.again_interval_rect = self.again_interval_text.get_rect(center = ((WIDTH + ((TRUEWIDTH - WIDTH) / 2)) + 100, 300))
 
         self.undo_text = self.config.help_item.render("<--", False, (255, 0, 0))
@@ -63,12 +64,12 @@ class Study(Game):
         self.study_msg_rect = self.study_msg.get_rect(center = ((WIDTH + ((TRUEWIDTH - WIDTH) / 2)), 50))
         surface.blit(self.study_msg, self.study_msg_rect)
 
-        show_color = self.show_answer_button_color if not self.show_answer_button_rect.collidepoint(mouse_pos) else self.show_answer_button_hover_color
+        show_color = self.show_answer_button_color if not self.show_answer_button_rect.collidepoint(mouse_pos) else self.anki_button_hover_color
 
         pygame.draw.rect(surface, show_color, self.show_answer_button_rect)
         surface.blit(self.show_answer_text, self.show_answer_rect)
 
-        self.new_left_msg = self.config.study_button_font.render(str(self.scheduler.new_left), False, (0, 0, 255))
+        self.new_left_msg = self.config.study_button_font.render(str(self.scheduler.new_left), False, self.config.theme_blue)
         self.relearn_left_msg = self.config.study_button_font.render(str(self.scheduler.relearn_left), False, (255, 0, 0))
         self.review_left_msg = self.config.study_button_font.render(str(self.scheduler.review_left), False, (0, 255, 0))
 
@@ -105,13 +106,13 @@ class Study(Game):
 
             surface.blit(self.again_interval_text, self.again_interval_rect)
 
-            self.hard_interval_text = self.config.study_button_font.render(self.scheduler.hard_interval, False, (255, 255, 255))
+            self.hard_interval_text = self.config.study_button_font.render(self.scheduler.hard_interval, False, self.config.theme_blue)
             self.hard_interval_rect = self.hard_interval_text.get_rect(center = ((WIDTH + ((TRUEWIDTH - WIDTH) / 2)) + 100, 400))
 
-            self.easy_interval_text = self.config.study_button_font.render(self.scheduler.easy_interval, False, (255, 255, 255))
+            self.easy_interval_text = self.config.study_button_font.render(self.scheduler.easy_interval, False, self.config.theme_blue)
             self.easy_interval_rect = self.easy_interval_text.get_rect(center = ((WIDTH + ((TRUEWIDTH - WIDTH) / 2)) + 100, 600))
 
-            self.good_interval_text = self.config.study_button_font.render(self.scheduler.good_interval, False, (255, 255, 255))
+            self.good_interval_text = self.config.study_button_font.render(self.scheduler.good_interval, False, self.config.theme_blue)
             self.good_interval_rect = self.good_interval_text.get_rect(center = ((WIDTH + ((TRUEWIDTH - WIDTH) / 2)) + 100, 500))
 
             surface.blit(self.hard_interval_text, self.hard_interval_rect)

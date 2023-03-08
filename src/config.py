@@ -19,7 +19,7 @@ class Config:
         self.menu_item_font = pygame.font.Font('assets/fonts/Game of Thrones.ttf', 60)
         self.menu_item_font_hover = pygame.font.SysFont('impact', 80)
 
-        self.help_item = pygame.font.SysFont('courier', 50)
+        self.help_item = pygame.font.SysFont('courier', 50, bold=True)
         self.help_item_hover = pygame.font.SysFont('impact', 55)
         self.move_font = pygame.font.SysFont('MONOSPACE', 25)
 
@@ -28,13 +28,15 @@ class Config:
         self.move_sound = Sound(os.path.join('assets/sounds/move.mp3'))
         self.capture_sound = Sound(os.path.join('assets/sounds/capture.mp3'))
 
-        self.study_wrong = (255, 0, 0)
-        self.study_right = (0, 255, 0)
-        self.study_neutral = (255, 255, 255)
-
         self.theme_bg = (37, 34, 44)
         self.theme_blue = (30, 174, 228)
         self.theme_hover = (14, 46, 68)
+
+        self.study_wrong = (255, 0, 0)
+        self.study_right = (0, 255, 0)
+        self.study_neutral = self.theme_blue
+
+        
 
     def change_theme(self):
         self.idx += 1

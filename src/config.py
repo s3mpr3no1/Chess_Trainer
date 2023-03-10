@@ -31,6 +31,7 @@ class Config:
         self.theme_bg = (37, 34, 44)
         self.theme_blue = (30, 174, 228)
         self.theme_hover = (14, 46, 68)
+        self.theme_red = (106, 19, 16)
 
         self.study_wrong = (255, 0, 0)
         self.study_right = (0, 255, 0)

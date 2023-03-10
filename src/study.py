@@ -42,8 +42,12 @@ class Study(Game):
         self.again_interval_text = self.config.study_button_font.render("1m", False, self.config.theme_blue)
         self.again_interval_rect = self.again_interval_text.get_rect(center = ((WIDTH + ((TRUEWIDTH - WIDTH) / 2)) + 100, 300))
 
-        self.undo_text = self.config.help_item.render("<--", False, (255, 0, 0))
-        self.undo_rect = self.undo_text.get_rect(center = ((WIDTH + ((TRUEWIDTH - WIDTH) / 2)) - 100, 50))
+        self.undo_text = self.config.help_item.render("<", False, (255, 0, 0))
+        self.undo_rect = self.undo_text.get_rect(center = ((WIDTH + ((TRUEWIDTH - WIDTH) / 2)) - 150, 50))
+
+        self.undo_button_color = self.config.theme_hover
+        self.undo_button_rect = pygame.Rect((WIDTH + ((TRUEWIDTH - WIDTH) / 2)) - 175, 25, 50, 50)
+        
         
     def load_drills(self):
         # Initialize the scheduler
@@ -120,6 +124,8 @@ class Study(Game):
             surface.blit(self.good_interval_text, self.good_interval_rect)
 
         if self.wrong_move:
+            if self.undo_button_rect.collidepoint(mouse_pos):
+                pygame.draw.rect(surface, self.config.theme_red, self.undo_button_rect, border_radius=10)
             surface.blit(self.undo_text, self.undo_rect)
 
 

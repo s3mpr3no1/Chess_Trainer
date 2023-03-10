@@ -89,6 +89,11 @@ class DrillAdder(Game):
         """
         # Drill contents
         drill_contents = ""
+        print(len(self.board.moves))
+        print(self.color)
+        if (len(self.board.moves) % 2 == 0 and self.color == "white") or (len(self.board.moves) % 2 == 1 and self.color == "black"):
+            self.board.moves = self.board.moves[:-1]
+
         for move in self.board.moves:
             drill_contents += move
             drill_contents += ","

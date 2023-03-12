@@ -570,8 +570,17 @@ class Main:
 
                                     # In the other case, we need to play the next move in the drill
                                     # If the move made matches the drill sequence
+                                    
                                     elif study.scheduler.board_matches_drill(study_board):
-                                        # study_dragger.undrag_piece()
+                                        # for x in range(100):
+                                        #     pygame.display.update()
+                                        study_dragger.undrag_piece()
+                                        for x in range(25):
+                                            study.show_bg(screen, flipped)
+                                            study.show_last_move(screen, flipped)
+                                            study.show_pieces(screen, flipped)
+                                            pygame.display.update()
+                                        
 
                                         # Get the next move string from the drill
                                         next_move_string = study.scheduler.due_today[0].sequence[len(study_board.moves)]

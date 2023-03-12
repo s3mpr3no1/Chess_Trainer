@@ -167,6 +167,14 @@ class Title:
         help_counter = 0
 
         for x in range(255 * 8):
+            for event in pygame.event.get():
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    self.study_message.set_alpha(255)
+                    self.add_message.set_alpha(255)
+                    self.custom_message.set_alpha(255)
+                    self.help_message.set_alpha(255)
+                    return
+
             if x % 2 == 0 and study_counter < 256:
                 self.study_message.set_alpha(study_counter)
                 study_counter += 1

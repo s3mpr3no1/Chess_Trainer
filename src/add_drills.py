@@ -67,7 +67,7 @@ class DrillAdder(Game):
                 num_surf = self.config.move_font.render(str(move_counter) + ".", False, (255, 255, 255))
                 num_rect = num_surf.get_rect(midleft = (WIDTH + 20, (100 + 30 * move_counter)))
                 surface.blit(num_surf, num_rect)
-            move_surf = self.config.move_font.render(self.board.moves[move_index], False, (255, 255, 255))
+            move_surf = self.config.move_font.render(self.convert_to_printable(self.board.moves[move_index]), False, (255, 255, 255))
             if move_index % 2 == 0: # white
                 # if move_index == len(self.board.moves) - 1: # most recent move
                 #     indicator_rect = (WIDTH + 90, 90 + 30 * move_counter, 100, 20)
@@ -82,6 +82,21 @@ class DrillAdder(Game):
             surface.blit(move_surf, move_rect)
             if move_index % 2 == 1:
                 move_counter += 1
+
+    def convert_to_printable(self, move_string):
+        if move_string == "O-O" or move_string == "O-O-O":
+            return move_string
+        new_string = ""
+        capture_letter = "x" if "x" in move_string else ""
+        if capture_letter == "x":
+            piece_letter = move_string[1] if move_string[0] == "P" else move_string[0]
+        else:
+            piece_letter = "" if move_string[0] == "P" else move_string[0]
+        
+        destination_letter = move_string[3:5]
+        new_string = new_string + piece_letter + capture_letter + destination_letter
+        
+        return new_string
     
     def save_to_deck(self):
         """

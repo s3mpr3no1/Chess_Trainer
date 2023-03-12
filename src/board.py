@@ -42,7 +42,8 @@ class Board:
         self.squares[initial.row][initial.col].piece = None
         self.squares[final.row][final.col].piece = piece
 
-        self.moves.append(str(piece) + Square.get_alphacol(initial.col, False) + str(7 - (initial.row - 1)) + Square.get_alphacol(final.col, False) + str(7 - (final.row - 1)))
+        captured_flag = "x" if captured else ""
+        self.moves.append(str(piece) + Square.get_alphacol(initial.col, False) + str(7 - (initial.row - 1)) + Square.get_alphacol(final.col, False) + str(7 - (final.row - 1)) + captured_flag)
 
         """
         if not testing:
